@@ -19,8 +19,9 @@ export default function Home() {
 
     fetch('/api/hello').then((response) => {
       // console.log(...response.headers)
-      console.log(response)
+      // console.log(response)
       response.json().then((x) => {
+        // console.log(x)
         setData(x)
         setLoading(false)
       })
