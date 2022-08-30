@@ -1,8 +1,33 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import React, {useState, useEffect} from 'react'
 
 export default function Home() {
+
+  const [data, setData] = useState(null)
+  const [isLoading, setLoading] = useState(true)
+  
+  useEffect(() => {
+    setLoading(true)
+
+    // fetch('/api/hello').then((res) => res.json() )
+    //   .then((x) => {
+    //     setData(x)
+    //     setLoading(false)
+    //   })
+
+    fetch('/api/hello').then((response) => {
+      // console.log(...response.headers)
+      console.log(response)
+      response.json().then((x) => {
+        setData(x)
+        setLoading(false)
+      })
+    })
+
+  }, [])
+
   return (
     <div className={styles.container}>
       <Head>
@@ -13,8 +38,14 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to XKTransfer
+          XKTransfer
         </h1>
+
+        <h1>
+          {data ? data.name : ""} 
+        </h1>
+
+
 
         
 
