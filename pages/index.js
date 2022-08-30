@@ -4,31 +4,37 @@ import styles from '../styles/Home.module.css'
 import React, {useState, useEffect} from 'react'
 import Auth from './Components/Auth'
 
+
 export default function Home() {
+  
 
   const [data, setData] = useState(null)
   const [isLoading, setLoading] = useState(true)
   
-  useEffect(() => {
-    setLoading(true)
+  // useEffect(() => {
+  //   setLoading(true)
 
-    // fetch('/api/hello').then((res) => res.json() )
-    //   .then((x) => {
-    //     setData(x)
-    //     setLoading(false)
-    //   })
+  //   // fetch('/api/hello').then((res) => res.json() )
+  //   //   .then((x) => {
+  //   //     setData(x)
+  //   //     setLoading(false)
+  //   //   })
 
-    fetch('/api/hello').then((response) => {
-      // console.log(...response.headers)
-      // console.log(response)
-      response.json().then((x) => {
-        // console.log(x)
-        setData(x)
-        setLoading(false)
-      })
-    })
+  //   fetch('/api/hello').then((response) => {
+  //     // console.log(...response.headers)
+  //     // console.log(response)
+  //     response.json().then((x) => {
+  //       // console.log(x)
+  //       setData(x)
+  //       setLoading(false)
+  //     })
+  //   })
 
-  }, [])
+  // }, [])
+
+  function logSomething() {
+    console.log('function called')
+  }
 
   return (
     <div className={styles.container}>
@@ -48,6 +54,12 @@ export default function Home() {
         </h1>
 
         <Auth />
+
+        <button
+          onClick={logSomething}
+        >
+          button on index
+        </button>
 
 
 
