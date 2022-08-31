@@ -24,20 +24,12 @@ function Auth() {
             console.log("signing out")
         })
     }
-    console.log('called')
 
     onAuthStateChanged(auth, (user) => {
-        // console.log('auth state changed')
-        // console.log(user)
-        // console.log('why is this being called so much?')
         if (user) {
             setClient(user)
-            // setUserInfo(user)
-            // checkIfNewUser(user)
-          
         } else {
             console.log('nobody is logged in')
-            // setUserInfo()
         }
     })
 
@@ -53,17 +45,17 @@ function Auth() {
             
             > Sign Out</button>
             <h1
-                style={{
-                    borderStyle: 'solid',
-                    borderColor: '#00C5FF',
-                    padding: '10px',
-                    borderRadius: '10px',
-                    fontSize: '24px',
-                    cursor: 'pointer',
-                    color: 'white'
-                }}
+                // style={{
+                //     borderStyle: 'solid',
+                //     borderColor: '#00C5FF',
+                //     padding: '10px',
+                //     borderRadius: '10px',
+                //     fontSize: '24px',
+                //     cursor: 'pointer',
+                //     color: 'white'
+                // }}
             >
-            yer {client ? "logged in" : "logged out"}
+            Authorized: {client ? "true" : "false"}
             </h1>
         </div>
   )
