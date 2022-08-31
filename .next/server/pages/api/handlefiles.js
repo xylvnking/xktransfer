@@ -13,13 +13,33 @@ exports.id = "pages/api/handlefiles";
 exports.ids = ["pages/api/handlefiles"];
 exports.modules = {
 
+/***/ "body-parser":
+/*!******************************!*\
+  !*** external "body-parser" ***!
+  \******************************/
+/***/ ((module) => {
+
+module.exports = require("body-parser");
+
+/***/ }),
+
+/***/ "multer":
+/*!*************************!*\
+  !*** external "multer" ***!
+  \*************************/
+/***/ ((module) => {
+
+module.exports = require("multer");
+
+/***/ }),
+
 /***/ "(api)/./pages/api/handlefiles.js":
 /*!**********************************!*\
   !*** ./pages/api/handlefiles.js ***!
   \**********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ handler)\n/* harmony export */ });\nasync function handler(req, res) {\n    // let response\n    // console.log(req.method)\n    // fetch('https://pokeapi.co/api/v2/pokemon/ditto')\n    //       .then((res) => res.json())\n    //       .then((x) => {\n    //         response = x\n    //         res.status(200).json(response)\n    //       })\n    console.log({\n        name: req.file\n    });\n// res.json({\n//     name: req.file.originalname,\n//     type: req.file.mimetype,\n//     size: req.file.size\n//   })\n};\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwaSkvLi9wYWdlcy9hcGkvaGFuZGxlZmlsZXMuanMuanMiLCJtYXBwaW5ncyI6Ijs7OztBQUFlLGVBQWVBLE9BQU8sQ0FBQ0MsR0FBRyxFQUFFQyxHQUFHLEVBQUU7SUFDNUMsZUFBZTtJQUNmLDBCQUEwQjtJQUMxQixtREFBbUQ7SUFDbkQsbUNBQW1DO0lBQ25DLHVCQUF1QjtJQUN2Qix1QkFBdUI7SUFDdkIseUNBQXlDO0lBQ3pDLFdBQVc7SUFDWEMsT0FBTyxDQUFDQyxHQUFHLENBQUM7UUFDUkMsSUFBSSxFQUFFSixHQUFHLENBQUNLLElBQUk7S0FJZixDQUFDO0FBQ0osYUFBYTtBQUNiLG1DQUFtQztBQUNuQywrQkFBK0I7QUFDL0IsMEJBQTBCO0FBQzFCLE9BQU87Q0FDUiIsInNvdXJjZXMiOlsid2VicGFjazovL3hrdHJhbnNmZXIvLi9wYWdlcy9hcGkvaGFuZGxlZmlsZXMuanM/YWRkMSJdLCJzb3VyY2VzQ29udGVudCI6WyJleHBvcnQgZGVmYXVsdCBhc3luYyBmdW5jdGlvbiBoYW5kbGVyKHJlcSwgcmVzKSB7XG4gICAgLy8gbGV0IHJlc3BvbnNlXG4gICAgLy8gY29uc29sZS5sb2cocmVxLm1ldGhvZClcbiAgICAvLyBmZXRjaCgnaHR0cHM6Ly9wb2tlYXBpLmNvL2FwaS92Mi9wb2tlbW9uL2RpdHRvJylcbiAgICAvLyAgICAgICAudGhlbigocmVzKSA9PiByZXMuanNvbigpKVxuICAgIC8vICAgICAgIC50aGVuKCh4KSA9PiB7XG4gICAgLy8gICAgICAgICByZXNwb25zZSA9IHhcbiAgICAvLyAgICAgICAgIHJlcy5zdGF0dXMoMjAwKS5qc29uKHJlc3BvbnNlKVxuICAgIC8vICAgICAgIH0pXG4gICAgY29uc29sZS5sb2coe1xuICAgICAgICBuYW1lOiByZXEuZmlsZVxuICAgICAgICAvLyBuYW1lOiByZXEuZmlsZS5vcmlnaW5hbG5hbWUsXG4gICAgICAgIC8vIHR5cGU6IHJlcS5maWxlLm1pbWV0eXBlLFxuICAgICAgICAvLyBzaXplOiByZXEuZmlsZS5zaXplXG4gICAgICB9KVxuICAgIC8vIHJlcy5qc29uKHtcbiAgICAvLyAgICAgbmFtZTogcmVxLmZpbGUub3JpZ2luYWxuYW1lLFxuICAgIC8vICAgICB0eXBlOiByZXEuZmlsZS5taW1ldHlwZSxcbiAgICAvLyAgICAgc2l6ZTogcmVxLmZpbGUuc2l6ZVxuICAgIC8vICAgfSlcbiAgfVxuICAiXSwibmFtZXMiOlsiaGFuZGxlciIsInJlcSIsInJlcyIsImNvbnNvbGUiLCJsb2ciLCJuYW1lIiwiZmlsZSJdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///(api)/./pages/api/handlefiles.js\n");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ handler)\n/* harmony export */ });\nconst multer = __webpack_require__(/*! multer */ \"multer\");\n// const upload = multer({ dest: 'uploads/' })\nvar bodyParser = __webpack_require__(/*! body-parser */ \"body-parser\");\nconst upload = multer({\n    dest: \"uploads/\"\n});\n// app.use(bodyParser.urlencoded({extended: false}))\n// const thing = upload.single('upfile')\n// app.post('/api/fileanalyse', upload.single('upfile'), function(req, res, next) {\n//     console.log(req.file)\n//     res.json({\n//       name: req.file.originalname,\n//       type: req.file.mimetype,\n//       size: req.file.size\n//     })\n//     // console.log(req.body)\n//   })\nasync function handler(req, res) {\n    // const thing = JSON.parse(req.body)\n    console.log(req.body);\n};\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwaSkvLi9wYWdlcy9hcGkvaGFuZGxlZmlsZXMuanMuanMiLCJtYXBwaW5ncyI6Ijs7OztBQUFBLE1BQU1BLE1BQU0sR0FBSUMsbUJBQU8sQ0FBQyxzQkFBUSxDQUFDO0FBQ2pDLDhDQUE4QztBQUM5QyxJQUFJQyxVQUFVLEdBQUdELG1CQUFPLENBQUMsZ0NBQWEsQ0FBQztBQUN2QyxNQUFNRSxNQUFNLEdBQUdILE1BQU0sQ0FBQztJQUFFSSxJQUFJLEVBQUUsVUFBVTtDQUFFLENBQUM7QUFJM0Msb0RBQW9EO0FBRXBELHdDQUF3QztBQUV4QyxtRkFBbUY7QUFDL0UsNEJBQTRCO0FBQzVCLGlCQUFpQjtBQUNiLHFDQUFxQztBQUNyQyxpQ0FBaUM7QUFDakMsNEJBQTRCO0FBQzVCLFNBQVM7QUFDVCwrQkFBK0I7QUFDL0IsT0FBTztBQUdJLGVBQWVDLE9BQU8sQ0FBQ0MsR0FBRyxFQUFFQyxHQUFHLEVBQUU7SUFDNUMscUNBQXFDO0lBQ3pDQyxPQUFPLENBQUNDLEdBQUcsQ0FBQ0gsR0FBRyxDQUFDSSxJQUFJLENBQUM7Q0FDdEIiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly94a3RyYW5zZmVyLy4vcGFnZXMvYXBpL2hhbmRsZWZpbGVzLmpzP2FkZDEiXSwic291cmNlc0NvbnRlbnQiOlsiY29uc3QgbXVsdGVyICA9IHJlcXVpcmUoJ211bHRlcicpXG4vLyBjb25zdCB1cGxvYWQgPSBtdWx0ZXIoeyBkZXN0OiAndXBsb2Fkcy8nIH0pXG52YXIgYm9keVBhcnNlciA9IHJlcXVpcmUoJ2JvZHktcGFyc2VyJyk7XG5jb25zdCB1cGxvYWQgPSBtdWx0ZXIoeyBkZXN0OiAndXBsb2Fkcy8nIH0pXG5cblxuXG4vLyBhcHAudXNlKGJvZHlQYXJzZXIudXJsZW5jb2RlZCh7ZXh0ZW5kZWQ6IGZhbHNlfSkpXG5cbi8vIGNvbnN0IHRoaW5nID0gdXBsb2FkLnNpbmdsZSgndXBmaWxlJylcblxuLy8gYXBwLnBvc3QoJy9hcGkvZmlsZWFuYWx5c2UnLCB1cGxvYWQuc2luZ2xlKCd1cGZpbGUnKSwgZnVuY3Rpb24ocmVxLCByZXMsIG5leHQpIHtcbiAgICAvLyAgICAgY29uc29sZS5sb2cocmVxLmZpbGUpXG4gICAgLy8gICAgIHJlcy5qc29uKHtcbiAgICAgICAgLy8gICAgICAgbmFtZTogcmVxLmZpbGUub3JpZ2luYWxuYW1lLFxuICAgICAgICAvLyAgICAgICB0eXBlOiByZXEuZmlsZS5taW1ldHlwZSxcbiAgICAgICAgLy8gICAgICAgc2l6ZTogcmVxLmZpbGUuc2l6ZVxuICAgICAgICAvLyAgICAgfSlcbiAgICAgICAgLy8gICAgIC8vIGNvbnNvbGUubG9nKHJlcS5ib2R5KVxuICAgICAgICAvLyAgIH0pXG4gICAgICAgIFxuICAgICAgICBcbiAgICBleHBvcnQgZGVmYXVsdCBhc3luYyBmdW5jdGlvbiBoYW5kbGVyKHJlcSwgcmVzKSB7XG4gICAgICAgIC8vIGNvbnN0IHRoaW5nID0gSlNPTi5wYXJzZShyZXEuYm9keSlcbiAgICBjb25zb2xlLmxvZyhyZXEuYm9keSlcbiAgfVxuICAiXSwibmFtZXMiOlsibXVsdGVyIiwicmVxdWlyZSIsImJvZHlQYXJzZXIiLCJ1cGxvYWQiLCJkZXN0IiwiaGFuZGxlciIsInJlcSIsInJlcyIsImNvbnNvbGUiLCJsb2ciLCJib2R5Il0sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///(api)/./pages/api/handlefiles.js\n");
 
 /***/ })
 

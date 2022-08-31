@@ -3,15 +3,13 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import React, {useState, useEffect} from 'react'
 import Auth from './Components/Auth'
+import Admin from './Components/Admin'
 import {useAuthState} from "react-firebase-hooks/auth"
 
 import firebase, {auth, db, provider} from '../firebase/clientApp'
 // import firebase, {auth, db, provider} from '../firebase/clientApp'
 
 // import { auth } from '../firebase/clientApp'
-
-// console.log(auth)
-
 
 
 export default function Home() {
@@ -22,7 +20,7 @@ export default function Home() {
   
   
   const [user, userAuthIsLoading, userAuthError] = useAuthState(auth)
-  console.log(`Loading: ${userAuthIsLoading} || Current user: ${user}`)
+  // console.log(`Loading: ${userAuthIsLoading} || Current user: ${user}`)
   // console.log(user)
   
   // useEffect(() => {
@@ -45,6 +43,15 @@ export default function Home() {
   //   })
 
   // }, [])
+
+  const fileUpload = async () => {
+    console.log('yes')
+    // fetch('/api/handlefiles').then((res) => res.json() )
+    //   .then((x) => {
+    //     setData(x)
+    //     setLoading(false)
+    //   })
+  }
 
 
   return (
@@ -75,14 +82,7 @@ export default function Home() {
         <h1>
           XKTransfer
         </h1>
-        <h1>
-          {data ? data.name : ""} 
-        </h1>
-        {/* <form enctype="multipart/form-data" method="POST" action="/api/fileanalyse"> */}
-        <form method="POST" action="/api/handlefiles">
-            <input id="inputfield" type="file" name="upfile" />
-            <input id="button" type="submit" value="Upload" />
-        </form>
+        <Admin />
 
         
       </main>
