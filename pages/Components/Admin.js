@@ -9,129 +9,66 @@ import {
   list,
 } from "firebase/storage";
 import { storage } from '../../firebase/clientApp'
-import { collection, getDocs, doc, getDoc } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc, updateDoc } from "firebase/firestore";
+
 import firebase, {auth, db, provider} from '../../firebase/clientApp'
 import Image from 'next/image';
 
-
 function Admin() {
-
-      // Object.keys(clientList).forEach(function(key, index) {
-      //   return (
-      //     <li>{key}</li>
-      //   )
-      // }
-      // )
-
-        
-        
 
   const docRef = doc(db, "admin", "listOfAllUsers");
   const [clientList, setClientList] = useState(null)
   const [clientListArray, setClientListArray] = useState([])
-  
-  // useEffect(() => {
-  //   async function loadClientList() {
-  //     const docSnap = await getDoc(docRef);
-  //     if (docSnap.exists()) {
-  //       console.log("Document data:", docSnap.data());
-  //       setClientList(docSnap.data())
-  //     } else {
-  //       console.log("No such document!");
-  //     }
-  //   }
-  //   loadClientList()
-  // }, [])
-
-    // const querySnapshot = await getDocs(collection(db, "admin"));
-  // querySnapshot.forEach((doc) => {
-  //   console.log(`${doc.id} => ${doc.data()}`);
-  // });
-
-
+  const [clientSelected, setClientSelected] = useState(null)
   
   useEffect(() => {
     
     async function getClientList() {
 
-
-
-      // const clientList = db.collection('admin').doc('clientList');
-      // const doc = await clientList.get();
-      // if (!doc.exists) {
-      //   console.log('No such document!');
-      // } else {
-      //   console.log('Document data:', doc.data());
-      // }
-
-
-      
           const docRef = doc(db, "admin", "clientList");
           const docSnap = await getDoc(docRef);
       
           if (docSnap.exists()) {
             const yes = docSnap.data()
             setClientList(yes)
-
             const tempArray = []
-            // Object.keys(docSnap.data()).map((keys) => tempArray.push(docSnap.data()))
             Object.values(docSnap.data()).map((value) => tempArray.push(value))
-            // tempArray.push(docSnap.data())
-            // console.log(tempArray)
             setClientListArray(tempArray)
-            // console.log("Document data:", docSnap.data());
-            // console.log(docSnap.data())
           } else {
-            // doc.data() will be undefined in this case
             console.log("No such document!");
           }
-
-
-
-
     }
     getClientList()
-    
-
-
-
-
   }, [])
-
-
-  function check() {
-    // Object.keys(clientList).map((key) => console.log(clientList))
-    // console.log(clientListArray[0])
-    // const thing = clientListArray[0]
-    // console.log(clientListArray[0])
-    console.log(clientListArray)
-    // console.log(clientList.thing)
-    // console.log(clientList.81nH8EWF2lSsSXf6Fkc3FaluRMA3)
-    // console.log(typeof clientList)
-    // console.log(` client array is ${clientListArray[1]}`)
-    // console.log(` clientList is ${clientList.dy81nH8EWF2lSsSXf6Fkc3FaluRMA3.email}`)
-    // console.log(` clientList is ${clientList[clientListArray[0]]}`)
-  }
-
   
-  if (clientList) {
-    // Object.keys(clientList).map((key) => console.log(clientList))
-    // clientListArray.map((x) => console.log(x))
+  function check() {
+    // Object.keys(clientSelected).map((key) => console.log(key))
+    console.log(clientSelected)
   }
-
-
 
   const [fileUpload, setFileUpload] = useState(null)
   const [fileUrl, setFileUrl] = useState(null)
-  const uploadFile = () => {
+  const uploadFile = async () => {
+    let downloadURL = ''
     if (fileUpload == null) return;
     const folderRef = ref(storage, `masters/${fileUpload.name}`) // making a reference to the bucket + name to give file
-    uploadBytes(folderRef, fileUpload).then((snapshot) => {
+
+    await uploadBytes(folderRef, fileUpload).then((snapshot) => {
+
       getDownloadURL(snapshot.ref).then((url) => {
+        downloadURL = url
         console.log(url)
+        console.log(downloadURL)
+
+      updateDoc(doc(db, clientSelected.uidWithoutNumberAtTheStart, "songs"), {
+        createSongNameMethodVariable: downloadURL
+        
+      })
+
       })
     })
   }
+  
   const fileInputOnChange = (event) => {
     setFileUpload(event.target.files[0])
     event.target.value = null;
@@ -145,27 +82,15 @@ function Admin() {
     <button id='uploadButton' onClick={uploadFile} style={{display: 'none'}} > Upload Image</button>
     <h3>File chosen for upload: {fileUpload ? fileUpload.name : ""}</h3>
     <button onClick={() => check()}>log list</button>
+    {clientSelected && <h5>client selected: {clientSelected.displayName} {clientSelected.uid}</h5>}
     <ul>
-      {/* {clientList &&
-      // Object.keys(clientList).map((key) => (<li key={key}>{key}</li>))
-      // Object.values(clientList).map((value) => (<li key={value.uid}>{value.uid}</li>))
-      Object.values(clientList).map((value) => (<li key={value.uid}>{value.uid}</li>))
-      // Object.values(clientList).map((value) => (<li key={value.uid}>{value.email}</li>))
-      }
-      {clientList &&
-      // Object.keys(clientList).map((key) => (<li key={key}>{key}</li>))
-      // Object.values(clientList).map((value) => (<li key={value.uid}>{value.uid}</li>))
-      // Object.values(clientList).map((value) => (<li key={value.uid}>{value.uid}</li>))
-      Object.values(clientList).map((value) => (<li key={value.uid}>{value.email}</li>))
-      } */}
 
-
-      
       {clientListArray &&
         clientListArray.map((x) => {
 
           return (
-            <ul key={x.uid} className={styles.clientInfoListItem}>
+            <ul key={x.uid} className={styles.clientInfoListItem} onClick={() => setClientSelected(x)}>
+            {/* <ul key={x.uid} className={styles.clientInfoListItem}> */}
                               {<Image 
                 key={x.uid}
                 src={x.photoURL} 
@@ -173,12 +98,12 @@ function Admin() {
                 alt="User Photo" 
                 width={'100%'} 
                 height={'100%'} /> }
+              {/* {Object.values(x).map((value) => <li key={value} className={styles.clientInfoListItemListItem} onClick={() => setClientSelected(value)}> */}
               {Object.values(x).map((value) => <li key={value} className={styles.clientInfoListItemListItem}>
                 {/* {value} */}
                 {value}
               </li>)}
             </ul>
-
           )
         })
       }

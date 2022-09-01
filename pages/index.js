@@ -85,11 +85,11 @@ export default function Home() {
         user ?
 
         <nav className={styles.nav}>
-          {user.displayName}
+          {/* {user.displayName}
             _
           {user.email}
           _
-          {user.uid}
+          {user.uid} */}
           
           {<Image src={user.photoURL} 
             className={styles.userIcon}

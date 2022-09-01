@@ -38,7 +38,8 @@ function Auth() {
     }
 
     const createNewClient = async (user) => {
-        const uidWithoutNumberAtTheStart = 'dy' + user.uid
+        const uidWithoutNumberAtTheStart = 'clientID' + user.uid
+
         try { // create a document in a collection with user's uid who's existence will be validated on sign in to check if they're a new user or not
             // await setDoc(doc(db, user.uid, 'settings'), {
             await setDoc(doc(db, uidWithoutNumberAtTheStart, 'settings'), {
@@ -46,18 +47,44 @@ function Auth() {
                 displayName: user.displayName,
                 email: user.email,
                 photoUrl: user.photoURL,
+                uidWithoutNumberAtTheStart: uidWithoutNumberAtTheStart,
                 creationTime: user.metadata.creationTime
             });
         } catch (error) {
             console.error("Error adding document: ", error);
         }
+
+
+
+
+        // create 'songs' default doc
+        // try { // create a document in a collection with user's uid who's existence will be validated on sign in to check if they're a new user or not
+        //     // await setDoc(doc(db, user.uid, 'settings'), {
+        //     await setDoc(doc(db, uidWithoutNumberAtTheStart, 'settings'), {
+        //         uid: user.uid,
+        //         displayName: user.displayName,
+        //         email: user.email,
+        //         photoUrl: user.photoURL,
+        //         uidWithoutNumberAtTheStart: uidWithoutNumberAtTheStart,
+        //         creationTime: user.metadata.creationTime
+        //     });
+        // } catch (error) {
+        //     console.error("Error adding document: ", error);
+        // }
+
+
+
+
+
+
         try {
             await updateDoc(doc(db, 'admin', "clientList"), {
                 [uidWithoutNumberAtTheStart] : {
+                    uid: user.uid,
                     displayName: user.displayName,
                     email: user.email,
-                    uid: user.uid,
-                    photoURL: user.photoURL
+                    photoURL: user.photoURL,
+                    uidWithoutNumberAtTheStart: uidWithoutNumberAtTheStart
                 },
             })
         } catch (error) {
