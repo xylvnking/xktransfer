@@ -27,6 +27,7 @@ const app = initializeApp(firebaseConfig);
 //     firebase.initializeApp(clientCredentials);
 // }
 
+
 export default firebase;
 export const storage = getStorage(app);
 export const db = getFirestore(app);

@@ -1,3 +1,14 @@
+.container {
+  /* display: block; */
+  /* margin: auto; */
+  /* margin: auto; */
+  /* width: 50%; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
 .userIcon {
   border-radius: 50%;
 }
@@ -6,9 +17,27 @@
   background-color: #0070f3;
 }
 
+.admin {
+  background-color: rgb(255, 255, 255);
+  color: black;
+  padding: 10px;
+  padding-top: 30px;
+  margin: 10px;
+}
+
 .footer {
   background-color: rgb(52, 52, 52);
   position: fixed;
   bottom: 0px;
   width: 100%;
 }
+
+.uploadButton {
+  /* margin: ; */
+  border-style: solid;
+  border-radius: 10px;
+  /* box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px; */
+  padding: 10px;
+  
+}
+
