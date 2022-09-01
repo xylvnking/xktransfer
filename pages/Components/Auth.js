@@ -4,7 +4,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChang
 
 import { db, auth, provider } from '../../firebase/clientApp';
 
-import { collection, addDoc, doc, getDoc, setDoc } from "firebase/firestore"; 
+import { collection, addDoc, doc, getDoc, setDoc, updateDoc } from "firebase/firestore"; 
 
 // import {useAuthState} from "react-firebase-hooks/auth"
 import {useAuthState} from "react-firebase-hooks/auth"
@@ -17,73 +17,66 @@ function Auth() {
 
     const [userAuth, userAuthIsLoading, userAuthError] = useAuthState(auth)
 
-    const [loginStatus, setLoginStatus] = useState()
     const [client, setClient] = useState()
 
     const signInWithGoogle = async () => {
         await signInWithPopup(auth, provider).then((result) => {
-            setLoginStatus(true)
             setClient(result.user)
             checkIfNewClient(result.user)
-            console.log("signing in")
         })
         .catch(function (error) {
-            console.error(error);
+            console.error("there was an error signing in", error);
         })
     }
     const signUserOut = async () => {
         await signOut(auth, provider).then(() => {
-            setLoginStatus(false)
             setClient(null)
-            console.log("signing out")
         })
         .catch(function (error) {
-            console.error(error);
+            console.error("there was an error signing out", error);
         })
     }
 
-    // console.log(userAuth)
-
     const createNewClient = async (user) => {
-        try {
-            // const docRef = await addDoc(collection(db, client.uid), {
-            // uid: client.uid,
-            // displayName: client.displayName,
-            // email: client.email,
-            // photoUrl: client.photoUrl,
-            // clientInfo: client
-            // });
-            // console.log("Document written with ID: ", docRef.id);
-            console.log(user)
-            await setDoc(doc(db, user.uid, 'settings'), {
+        const uidWithoutNumberAtTheStart = 'dy' + user.uid
+        try { // create a document in a collection with user's uid who's existence will be validated on sign in to check if they're a new user or not
+            // await setDoc(doc(db, user.uid, 'settings'), {
+            await setDoc(doc(db, uidWithoutNumberAtTheStart, 'settings'), {
                 uid: user.uid,
                 displayName: user.displayName,
                 email: user.email,
                 photoUrl: user.photoURL,
-                // clientInfo: user
-              });
-              console.log('new thing should be created')
-        } catch (e) {
-            console.error("Error adding document: ", e);
+                creationTime: user.metadata.creationTime
+            });
+        } catch (error) {
+            console.error("Error adding document: ", error);
+        }
+        try {
+            await updateDoc(doc(db, 'admin', "clientList"), {
+                [uidWithoutNumberAtTheStart] : {
+                    displayName: user.displayName,
+                    email: user.email,
+                    uid: user.uid,
+                    photoURL: user.photoURL
+                },
+            })
+        } catch (error) {
+            console.log("Error updating admin's list of users", error)
         }
 
         
     }
 
     const checkIfNewClient = async (user) => {
-        // console.log(user)
-        // console.log('checking if new client')
         const docRef = doc(db, `${user.uid}`, 'settings')
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
         } else {
-            // console.log('its a new client!')
             createNewClient(user)
         }
     }
 
-
-    // onAuthStateChanged(auth, (user) => {
+    // onAuthStateChanged(auth, (user) => { // old auth check method used in other app. causes rerender and recheck every time, using hook instead
     //     if (user) {
     //         setClient(user)
     //         checkIfNewClient(user)
@@ -108,8 +101,7 @@ function Auth() {
                 :
                 <button onClick={signInWithGoogle}> Sign In</button>
             }
-            {/* <h1>Authorized: {loginStatus ? "true" : "false"}</h1> */}
-            <button onClick={logIt}>log</button>
+            <button onClick={logIt}>log user info</button>
         </div>
   )
 }
