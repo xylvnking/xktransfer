@@ -49,7 +49,7 @@
   list-style: none;
   padding: 10px;
   background-color: rgb(232, 232, 232);
-  border-radius: 5px;
+  border-radius: 10px;
   border-style: solid;
   border-color: rgb(86, 86, 86);
   border-width: 2px;
@@ -60,6 +60,18 @@
 .clientInfoListItemListItem {
   overflow: hidden;
   text-overflow: ellipsis;
-  
 
+}
+
+.clientInfo {
+  background-color: rgb(190, 190, 190);
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+}
+
+.songList {
+  padding: 10px;
+  margin: 10px;
+  list-style: none;
 }

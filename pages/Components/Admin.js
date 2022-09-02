@@ -16,12 +16,12 @@ import Image from 'next/image';
 
 function Admin() {
 
-  const docRef = doc(db, "admin", "listOfAllUsers");
   const [clientList, setClientList] = useState(null)
   const [clientListArray, setClientListArray] = useState([])
   const [clientSelected, setClientSelected] = useState(null)
   
-  useEffect(() => {
+  
+  useEffect(() => { // load client list
     
     async function getClientList() {
 
@@ -33,6 +33,7 @@ function Admin() {
             setClientList(yes)
             const tempArray = []
             Object.values(docSnap.data()).map((value) => tempArray.push(value))
+            
             setClientListArray(tempArray)
           } else {
             console.log("No such document!");
@@ -41,165 +42,136 @@ function Admin() {
     getClientList()
   }, [])
   
+
+
+
   function check() {
-    // Object.keys(clientSelected).map((key) => console.log(key))
-    // console.log(clientSelected)
-    // console.log(clientSelected.uidWithoutNumberAtTheStart)
-    // const dateUtc = new Date()
-    console.log(Date.parse(new Date()))
+    // console.log(Date.parse(new Date()))
+    // getAllSongsByClient()
+    // console.log(getList())
+    // console.log(clientListArray)
+    getAllSongsByClient()
+  }
+
+
+
+
+  
+  // const getAllSongsByClient = async () => {
+  async function getAllSongsByClient () {
+    
+
+    // Object.values(docSnap.data()).map((value) => tempArray.push(value))
+    const tempArray2 = []
+    clientListArray.map((x) => tempArray2.push(x))
+    // console.log(tempArray2)
+
+
+    const songListArray = []
+
+    // for each in clientListArray
+      // push the docs/songs from the collection matching their uid into a clientData array
+        // so that you can iterate over that to create the ui instead
+    const toBeClientDataArray = []
+    clientListArray.map((client) => {
+      // console.log(client.uidWithoutNumberAtTheStart)
+      let y = client.uidWithoutNumberAtTheStart
+      // console.log(client)
+
+
+      // const querySnapshot = getDocs(collection(db, y));
+      // // console.log(querySnapshot)
+
+      // querySnapshot.forEach((doc) => {
+      //   if (doc.id !== 'settings') {
+      //     songListArray.push(doc.data())
+      //     // console.l
+      //     // console.log('yes')
+      //     console.log(doc.id, " => ", doc.data());
+      //   }
+      // });
+
+
+    })
+
+
+    // this gets all the songs for the selected client
+    // i need it to get all the songs for every client
+    // mapping over the client list and doing this per element seems to not work, might have done it wrong so worth retrying
+    // maybe get all that data from firebase first, store it in a variable locally, and then iterate over that -
+      // because i think the await wasn't working and the promising wasn't resolving if i used .map - maybe there's a way to make map async
+        // either way, you've got the data, figure out how to combine it. find index, filter, etc
+
+
+    const querySnapshot = await getDocs(collection(db, clientSelected.uidWithoutNumberAtTheStart));
+    querySnapshot.forEach((doc) => {
+      if (doc.id !== 'settings') {
+        songListArray.push(doc.data())
+        // console.log(doc.id, " => ", doc.data());
+      }
+    });
+
+
+
+
+
+    console.log(`songListArray is`)
+    console.log(songListArray)
+    console.log(`clientListArray is`)
+    console.log(clientListArray)
+
+
     
   }
 
+
+
   const [fileUpload, setFileUpload] = useState(null)
   const [fileUrl, setFileUrl] = useState(null)
+
   const uploadFile = async () => {
-
-    const fileNameRegexed = fileUpload.name.replace(/.wav|.mp3|.jpg|.jpeg|/, '')
-    console.log(fileNameRegexed)
-    console.log('called')
-
-    const songTitle = 'temporarySong'
-    let downloadURL = ''
     if (fileUpload == null) return;
+
+    const fileNameRegexed = fileUpload.name.replace(/.wav|.mp3|.jpg|.jpeg/, '')
+    // console.log(`file name regexed is ${fileNameRegexed}`)
+    const songTitle = 'temporarySong2'
+    let downloadURL = ''
     const folderRef = ref(storage, `masters/${fileUpload.name}`) // making a reference to the bucket + name to give file
-
-
     const docRef = doc(db, clientSelected.uidWithoutNumberAtTheStart, songTitle)
     const docSnap = await getDoc(docRef)
 
+    await uploadBytes(folderRef, fileUpload).then((snapshot) => { // upload document
 
-    await uploadBytes(folderRef, fileUpload).then((snapshot) => {
-
-      getDownloadURL(snapshot.ref).then((url) => {
+      getDownloadURL(snapshot.ref).then((url) => { // get uploaded document URL
         downloadURL = url
-        console.log(url)
-        console.log(downloadURL)
-      
 
-      if (docSnap.exists()) {
-        console.log('song exists')
-        updateDoc(docRef, {
-          [fileNameRegexed]: {
-            downloadURL: downloadURL,
-            date: Date.parse(new Date()),
-            revisionNote: 'this iTHIRRRD schema works.'
-          }
-        })
+        if (docSnap.exists()) { // if the song has already been created, update it
+          console.log('song exists')
+          updateDoc(docRef, {
+            [fileNameRegexed]: {
+              downloadURL: downloadURL,
+              date: Date.parse(new Date()),
+              revisionNote: 'this iTHIRRRD schema works.'
+            }
+          })
 
-      } else {
-        console.log('song doesnt exist')
-        setDoc(docRef, {
-          [fileNameRegexed]: {
-            downloadURL: downloadURL,
-            date: Date.parse(new Date()),
-            revisionNote: 'this is a SECOND REVISIONink this schema works.'
-          }
-          
-        })
-      }
-
-      // setDoc(songRef, {
-      //   [fileNameRegexed]: {
-      //     downloadURL: downloadURL,
-      //     date: Date.parse(new Date()),
-      //     revisionNote: 'this is a SECOND REVISIONink this schema works.'
-      //   }
-        
-      // })
-
-
-
-
-
-
-      // if (songRef) {
-      //   // update it
-      //   console.log('song exists, updating now...')
-      // } else {
-      //   // create it
-      //   console.log('new song, creating document...')
-      //   setDoc(songRef, {
-      //     [fileNameRegexed]: {
-      //       downloadURL: downloadURL,
-      //       date: 123,
-      //       revisionNote: 'this is a SECOND REVISIONink this schema works.'
-      //     }
-          
-      //   })
-      // }
-      
-      // setDoc(doc(db, clientSelected.uidWithoutNumberAtTheStart, songTitle), {
-
-
-        /*
-           i think the solution here is to
-           either GET all the array data, push new data onto that, then reupload it, which feels fine at this scale
-           otherwise
-           i could store the revisions in an object, adding keys to make them easily iterable (or using the date)
-           so adding the date with the file uploads and then sorting them by that when i need to display the revisions
-           but that feels like i'm creating more data than i need, 
-
-        */
-
-
-      // updateDoc(songRef, {
-      //   revisions: [
-      //     {
-      //       downloadURL: downloadURL,
-      //       fileName: fileUpload.name,
-      //       revisionNote: 'this is a revision nyeahyeahyeahem. i think this schema works.'
-      //     }
-      //   ]
-      // }, {merge: true})
-
-      // setDoc(songRef, {
-      //   revisions: [
-      //     {
-      //       downloadURL: downloadURL,
-      //       fileName: fileUpload.name,
-      //       revisionNote: 'this is a revision nyeahyeahyeahem. i think this schema works.'
-      //     }
-      //   ]
-      // }, {merge: true})
-      // const dateUtc = new Date().toUTCString
-
-      // setDoc(songRef, {
-      //   [fileNameRegexed]: {
-      //     downloadURL: downloadURL,
-      //     date: 123,
-      //     revisionNote: 'this is a SECOND REVISIONink this schema works.'
-      //   }
-        
-      // })
-
-
+        } else { // if th song doesn't exist, create a document for it
+          console.log('song doesnt exist')
+          setDoc(docRef, {
+            [fileNameRegexed]: {
+              downloadURL: downloadURL,
+              date: Date.parse(new Date()),
+              revisionNote: 'this is a SECOND REVISIONink this schema works.'
+            }
+          })
+        }
       })
     })
   }
 
-  // database architecture
-  // i think the first is better - having a document per song
-  // it allows me more flexibility later if I want to store metadata or other info
-  // it also doesn't risk hitting the 1mb limit for documents,
-    // which allows me to not *need* to clear the data once the final master is delivered
-  /*
-  collection: client
-  document: song name
-  field: [{download url0, revision notes0}, [download url1, revision notes1], [download url2, revision notes2]] - changes every round
-  */
-
-  /*
-  collection: client
-  document: songs
-  song: [[download url0, revision notes0], [download url1, revision notes1], [download url2, revision notes2]] - changes every round
-  */
-
   const fileInputOnChange = (event) => {
-    const x = event.target.files[0]
     setFileUpload(event.target.files[0])
     event.target.value = null;
-    // const fileNameRegexed = x.name.replace(/.wav|.mp3/, '')
-    // console.log(fileNameRegexed)
   }
 
   return ( 
@@ -211,32 +183,49 @@ function Admin() {
       <button id='uploadButton' onClick={uploadFile} style={{display: 'none'}} > Upload Image</button>
 
       <h3>File chosen for upload: {fileUpload ? fileUpload.name : ""}</h3>
-      <button onClick={() => check()}>log list</button>
+      <button onClick={() => check()}>CHECK</button>
       {clientSelected && <h5>client selected: {clientSelected.displayName} {clientSelected.uid}</h5>}
       <ul>
 
         {clientListArray &&
           clientListArray.map((x) => {
-
             return (
+
               <ul key={x.uid} className={styles.clientInfoListItem} onClick={() => setClientSelected(x)}>
-              {/* <ul key={x.uid} className={styles.clientInfoListItem}> */}
-                                {<Image 
+                {<Image 
                   key={x.uid}
                   src={x.photoURL} 
                   className={styles.userIcon}
                   alt="User Photo" 
                   width={'100%'} 
                   height={'100%'} /> }
-                {/* {Object.values(x).map((value) => <li key={value} className={styles.clientInfoListItemListItem} onClick={() => setClientSelected(value)}> */}
-                {Object.values(x).map((value) => <li key={value} className={styles.clientInfoListItemListItem}>
-                  {/* {value} */}
-                  {value}
-                </li>)}
+                  <section className={styles.clientInfo}>
+                    {Object.values(x).map((value) => <li key={value} className={styles.clientInfoListItemListItem}>
+                      {value}
+                    </li>)}
+                  </section>
+
+                <ul className={styles.songList}>
+                  <li>song1</li>
+                  <li>song2</li>
+                  <li>song3</li>
+                  <li>song4</li>
+                  {
+                    // clientSelected && getList()
+                  }
+                </ul>
+
               </ul>
             )
           })
         }
+
+
+
+
+
+
+
         {/* {clientListArray && clientListArray[0]} */}
 
 
