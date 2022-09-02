@@ -54,10 +54,12 @@
   border-color: rgb(86, 86, 86);
   border-width: 2px;
   margin: 10px;
+  
 }
 
 .clientInfoListItemListItem {
   overflow: hidden;
   text-overflow: ellipsis;
+  
 
 }
