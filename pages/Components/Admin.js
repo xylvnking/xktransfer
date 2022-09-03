@@ -22,8 +22,6 @@ function Admin() {
   
   
   useEffect(() => { // load client list
-
-    const cloneOfClientListArray = []
     
     async function getClientList() {
 
@@ -36,34 +34,20 @@ function Admin() {
             const tempArray = []
             Object.values(docSnap.data()).map((value) => tempArray.push(value))
 
-            // setClientListArray(tempArray)
-
             // get all songs for each client
             for (let z = 0; z < tempArray.length; z++) {
               const tempSongsArray = []
               let songDoc = tempArray[z].uidWithoutNumberAtTheStart
-              
               const querySnapshot = await getDocs(collection(db, songDoc));
               // console.log('looper')
               querySnapshot.forEach((doc) => {
-                    if (doc.id !== 'settings') {
-                      // console.log(tempArray[z])
-                      tempSongsArray.push(doc.data())
-                      // tempArray[z].songs = doc.data()
-                      
-                      // console.log(tempSongsArray)
-                    }
-                  });
-
-                tempArray[z].songs = tempSongsArray
+                if (doc.id !== 'settings') {
+                  tempSongsArray.push(doc.data())
+                }
+              });
+              tempArray[z].songs = tempSongsArray
             }
-        
             setClientListArray(tempArray)
-
-            
-            // cloneOfClientListArray = tempArray
-            
-            
           } else {
             console.log("No such document!");
           }
@@ -71,19 +55,11 @@ function Admin() {
     getClientList()
 
   }, [])
-  
-
-
 
   function check() {
     console.log(clientListArray)
   }
 
-
-
-
-
-  
   // const getAllSongsByClient = async () => {
   async function getAllSongsByClient () {
     const cloneOfClientListArray = JSON.parse(JSON.stringify(clientListArray))
@@ -99,8 +75,6 @@ function Admin() {
 
     setClientListArray(cloneOfClientListArray)
   }
-
-
 
   const [fileUpload, setFileUpload] = useState(null)
   const [fileUrl, setFileUrl] = useState(null)
@@ -162,46 +136,38 @@ function Admin() {
       <button onClick={() => check()}>CHECK</button>
       {clientSelected && <h5>client selected: {clientSelected.displayName} {clientSelected.uid}</h5>}
 
-      <ul>
+      <ul className={styles.list}>
         {clientListArray &&
           clientListArray.map((x) => {
             return (
               <ul key={x.uid} className={styles.clientInfoListItem} onClick={() => setClientSelected(x)}>
-                {<Image 
+                <li className={styles.clientInfoCard}>
+                  {<Image 
                   key={x.uid}
                   src={x.photoURL} 
                   className={styles.userIcon}
                   alt="User Photo" 
                   width={'100%'} 
-                  height={'100%'} /> }
+                  height={'100%'} 
+                  /> }
                   <section className={styles.clientInfo}>
-                    {Object.values(x).map((value) => <li key={value} className={styles.clientInfoListItemListItem}>
-                      {
-                      typeof value == 'string' ?
-                      value
-                      :
-                      null
-                      }
-                    </li>)}
+                    {x.displayName}
+                    {/* <br /> */}
+                    <p className={styles.clientInfoCardEmail}>{x.email}</p>
                   </section>
+                </li>
 
                 <ul className={styles.songList}>
                   {x.songs.map((song, index) => <ul key={x.uid + index} className={styles.fileListItem}>
                     
-                    {
-                      Object.values(song).map((songData, index) => <li key={songData.date}>{songData.date}</li>)
+                    {Object.keys(song).map((songData, index) => <ul key={index} className={styles.fileVersion}>
+                      <li>{songData}</li>
+                      <br />
+                      <li>{song[songData].revisionNote}</li>
+                      <br />
+                      <li><audio className={styles.audio} key={song[songData].date} controls src={song[songData].downloadURL}></audio></li>
                       
-                    }
-                    {
-                     
-                      Object.values(song).map((songData, index) => <li key={songData.date}>{songData.revisionNote}</li>)
-                     
-                    }
-                    {
-                     
-                      Object.values(song).map((songData, index) => <audio className={styles.audio} key={songData.date} controls src="https://firebasestorage.googleapis.com/v0/b/xktransfer-30d93.appspot.com/o/masters%2FOCHE-Playing-With-My-Head-dy-26082022.wav?alt=media&token=81f1d8f1-94cd-49fe-ae56-18de5710bb25"></audio>)
-                    }
-
+                    </ul>)}
                   </ul>)}
                 </ul>
               </ul>
@@ -209,8 +175,7 @@ function Admin() {
           })
         }
       </ul>
-      
-        {/* <audio controls src="https://firebasestorage.googleapis.com/v0/b/xktransfer-30d93.appspot.com/o/masters%2FOCHE%CC%81%20-%20Amina%20%5Bdy_26082022_mp3%5D.mp3?alt=media&token=1c7a207d-4467-4dfe-8b65-3b533356d783"></audio> */}
+    
     </div>
   )
 }
