@@ -40,13 +40,22 @@ function Admin() {
 
             // get all songs for each client
             for (let z = 0; z < tempArray.length; z++) {
+              const tempSongsArray = []
               let songDoc = tempArray[z].uidWithoutNumberAtTheStart
+              
               const querySnapshot = await getDocs(collection(db, songDoc));
+              // console.log('looper')
               querySnapshot.forEach((doc) => {
                     if (doc.id !== 'settings') {
-                      tempArray[z].songs = doc.data()
+                      // console.log(tempArray[z])
+                      tempSongsArray.push(doc.data())
+                      // tempArray[z].songs = doc.data()
+                      
+                      // console.log(tempSongsArray)
                     }
                   });
+
+                tempArray[z].songs = tempSongsArray
             }
         
             setClientListArray(tempArray)
@@ -67,7 +76,7 @@ function Admin() {
 
 
   function check() {
-    getAllSongsByClient()
+    console.log(clientListArray)
   }
 
 
@@ -157,7 +166,6 @@ function Admin() {
         {clientListArray &&
           clientListArray.map((x) => {
             return (
-
               <ul key={x.uid} className={styles.clientInfoListItem} onClick={() => setClientSelected(x)}>
                 {<Image 
                   key={x.uid}
@@ -173,31 +181,28 @@ function Admin() {
                       value
                       :
                       null
-                      
                       }
-                      {/* {
-                        typeof value !== 'string' ?
-                        'YERRRR' : null
-                      } */}
                     </li>)}
                   </section>
 
                 <ul className={styles.songList}>
-                {Object.values(x).map((value) => <ul key={value} className={styles.songListItem}>
-                      {
-                        typeof value !== 'string' 
-                        ?
-                        Object.keys(value).map((value2) => <li key={value2} className={styles.songListItemListItem}>{value2}</li>)
-                        : 
-                        ""
-                      }
-                    </ul>)}
-                  <li>song1</li>
-                  <li>song2</li>
-                  <li>song3</li>
-                  <li>song4</li>
-                  {
-                  }
+                  {x.songs.map((song, index) => <ul key={x.uid + index} className={styles.fileListItem}>
+                    
+                    {
+                      Object.values(song).map((songData, index) => <li key={songData.date}>{songData.date}</li>)
+                      
+                    }
+                    {
+                     
+                      Object.values(song).map((songData, index) => <li key={songData.date}>{songData.revisionNote}</li>)
+                     
+                    }
+                    {
+                     
+                      Object.values(song).map((songData, index) => <audio className={styles.audio} key={songData.date} controls src="https://firebasestorage.googleapis.com/v0/b/xktransfer-30d93.appspot.com/o/masters%2FOCHE-Playing-With-My-Head-dy-26082022.wav?alt=media&token=81f1d8f1-94cd-49fe-ae56-18de5710bb25"></audio>)
+                    }
+
+                  </ul>)}
                 </ul>
               </ul>
             )

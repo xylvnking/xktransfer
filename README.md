@@ -13,8 +13,11 @@
 [Understanding unique keys for array children in React.js](https://stackoverflow.com/a/43892905/19101255)
 [Remove all special characters with RegExp](https://stackoverflow.com/questions/4374822/remove-all-special-characters-with-regexp)
 [how-to-clone-an-array-in-javascript](https://www.freecodecamp.org/news/how-to-clone-an-array-in-javascript-1d3183468f6a/)
+[regex meme](https://stackoverflow.com/questions/1732348/regex-match-open-tags-except-xhtml-self-contained-tags/1732454#1732454)
 
 # unresolved problems
+
+[How to use Async and Await with Array.prototype.map()](https://flaviocopes.com/javascript-async-await-array-map/)
 
 I couldn't get the firestore setDoc function to not just overwrite the contents of the document, despite following the documentation's directive of passing {merge: true} as an argument. It didn't cause any errors, but it didn't have any affect either. Switched to updateDoc.
 

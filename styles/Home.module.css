@@ -74,6 +74,7 @@
   padding: 10px;
   margin: 10px;
   list-style: none;
+
 }
 .songListItem {
   padding: 0px;
@@ -85,4 +86,21 @@
   /* padding: 10px;
   margin: 10px; */
 }
+
+.fileListItem {
+  list-style: none;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+  background-color: aliceblue;
+}
+
+.audio {
+  /* filter: sepia(20%) saturate(70%) grayscale(1) contrast(99%) invert(12%); */
+  /* background-color: aliceblue; */
+    /* width: 200px;
+    height: 25px; */
+}
+
+
 
