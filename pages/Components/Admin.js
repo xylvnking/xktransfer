@@ -22,36 +22,54 @@ function Admin() {
   
   
   useEffect(() => { // load client list
+
+    const cloneOfClientListArray = []
     
     async function getClientList() {
 
+          // get all clients
           const docRef = doc(db, "admin", "clientList");
           const docSnap = await getDoc(docRef);
-      
           if (docSnap.exists()) {
             const yes = docSnap.data()
             setClientList(yes)
             const tempArray = []
             Object.values(docSnap.data()).map((value) => tempArray.push(value))
-            
+
+            // setClientListArray(tempArray)
+
+            // get all songs for each client
+            for (let z = 0; z < tempArray.length; z++) {
+              let songDoc = tempArray[z].uidWithoutNumberAtTheStart
+              const querySnapshot = await getDocs(collection(db, songDoc));
+              querySnapshot.forEach((doc) => {
+                    if (doc.id !== 'settings') {
+                      tempArray[z].songs = doc.data()
+                    }
+                  });
+            }
+        
             setClientListArray(tempArray)
+
+            
+            // cloneOfClientListArray = tempArray
+            
+            
           } else {
             console.log("No such document!");
           }
     }
     getClientList()
+
   }, [])
   
 
 
 
   function check() {
-    // console.log(Date.parse(new Date()))
-    // getAllSongsByClient()
-    // console.log(getList())
-    // console.log(clientListArray)
     getAllSongsByClient()
   }
+
 
 
 
@@ -59,69 +77,18 @@ function Admin() {
   
   // const getAllSongsByClient = async () => {
   async function getAllSongsByClient () {
-    
+    const cloneOfClientListArray = JSON.parse(JSON.stringify(clientListArray))
+    for (let z = 0; z < cloneOfClientListArray.length; z++) {
+      let songDoc = cloneOfClientListArray[z].uidWithoutNumberAtTheStart
+      const querySnapshot = await getDocs(collection(db, songDoc));
+      querySnapshot.forEach((doc) => {
+            if (doc.id !== 'settings') {
+              cloneOfClientListArray[z].songs = doc.data()
+            }
+          });
+    }
 
-    // Object.values(docSnap.data()).map((value) => tempArray.push(value))
-    const tempArray2 = []
-    clientListArray.map((x) => tempArray2.push(x))
-    // console.log(tempArray2)
-
-
-    const songListArray = []
-
-    // for each in clientListArray
-      // push the docs/songs from the collection matching their uid into a clientData array
-        // so that you can iterate over that to create the ui instead
-    const toBeClientDataArray = []
-    clientListArray.map((client) => {
-      // console.log(client.uidWithoutNumberAtTheStart)
-      let y = client.uidWithoutNumberAtTheStart
-      // console.log(client)
-
-
-      // const querySnapshot = getDocs(collection(db, y));
-      // // console.log(querySnapshot)
-
-      // querySnapshot.forEach((doc) => {
-      //   if (doc.id !== 'settings') {
-      //     songListArray.push(doc.data())
-      //     // console.l
-      //     // console.log('yes')
-      //     console.log(doc.id, " => ", doc.data());
-      //   }
-      // });
-
-
-    })
-
-
-    // this gets all the songs for the selected client
-    // i need it to get all the songs for every client
-    // mapping over the client list and doing this per element seems to not work, might have done it wrong so worth retrying
-    // maybe get all that data from firebase first, store it in a variable locally, and then iterate over that -
-      // because i think the await wasn't working and the promising wasn't resolving if i used .map - maybe there's a way to make map async
-        // either way, you've got the data, figure out how to combine it. find index, filter, etc
-
-
-    const querySnapshot = await getDocs(collection(db, clientSelected.uidWithoutNumberAtTheStart));
-    querySnapshot.forEach((doc) => {
-      if (doc.id !== 'settings') {
-        songListArray.push(doc.data())
-        // console.log(doc.id, " => ", doc.data());
-      }
-    });
-
-
-
-
-
-    console.log(`songListArray is`)
-    console.log(songListArray)
-    console.log(`clientListArray is`)
-    console.log(clientListArray)
-
-
-    
+    setClientListArray(cloneOfClientListArray)
   }
 
 
@@ -185,8 +152,8 @@ function Admin() {
       <h3>File chosen for upload: {fileUpload ? fileUpload.name : ""}</h3>
       <button onClick={() => check()}>CHECK</button>
       {clientSelected && <h5>client selected: {clientSelected.displayName} {clientSelected.uid}</h5>}
-      <ul>
 
+      <ul>
         {clientListArray &&
           clientListArray.map((x) => {
             return (
@@ -201,38 +168,43 @@ function Admin() {
                   height={'100%'} /> }
                   <section className={styles.clientInfo}>
                     {Object.values(x).map((value) => <li key={value} className={styles.clientInfoListItemListItem}>
-                      {value}
+                      {
+                      typeof value == 'string' ?
+                      value
+                      :
+                      null
+                      
+                      }
+                      {/* {
+                        typeof value !== 'string' ?
+                        'YERRRR' : null
+                      } */}
                     </li>)}
                   </section>
 
                 <ul className={styles.songList}>
+                {Object.values(x).map((value) => <ul key={value} className={styles.songListItem}>
+                      {
+                        typeof value !== 'string' 
+                        ?
+                        Object.keys(value).map((value2) => <li key={value2} className={styles.songListItemListItem}>{value2}</li>)
+                        : 
+                        ""
+                      }
+                    </ul>)}
                   <li>song1</li>
                   <li>song2</li>
                   <li>song3</li>
                   <li>song4</li>
                   {
-                    // clientSelected && getList()
                   }
                 </ul>
-
               </ul>
             )
           })
         }
-
-
-
-
-
-
-
-        {/* {clientListArray && clientListArray[0]} */}
-
-
-
-
-
       </ul>
+      
         {/* <audio controls src="https://firebasestorage.googleapis.com/v0/b/xktransfer-30d93.appspot.com/o/masters%2FOCHE%CC%81%20-%20Amina%20%5Bdy_26082022_mp3%5D.mp3?alt=media&token=1c7a207d-4467-4dfe-8b65-3b533356d783"></audio> */}
     </div>
   )

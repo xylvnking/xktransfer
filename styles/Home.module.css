@@ -75,3 +75,14 @@
   margin: 10px;
   list-style: none;
 }
+.songListItem {
+  padding: 0px;
+  margin: 0px;
+}
+
+.songListItemListItem {
+  list-style: none;
+  /* padding: 10px;
+  margin: 10px; */
+}
+
