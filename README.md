@@ -1,5 +1,8 @@
 # packages
 [react-firebase-hooks](https://github.com/CSFrequency/react-firebase-hooks)
+[react-textarea-autosize](https://github.com/Andarist/react-textarea-autosize)
+
+
 [multer](https://github.com/expressjs/multer)
 [body parser](https://github.com/expressjs/body-parser)
 [easy emoji favicons](https://favicon.io/emoji-favicons/bat)
@@ -14,6 +17,8 @@
 [Remove all special characters with RegExp](https://stackoverflow.com/questions/4374822/remove-all-special-characters-with-regexp)
 [how-to-clone-an-array-in-javascript](https://www.freecodecamp.org/news/how-to-clone-an-array-in-javascript-1d3183468f6a/)
 [regex meme](https://stackoverflow.com/questions/1732348/regex-match-open-tags-except-xhtml-self-contained-tags/1732454#1732454)
+[annoying date stuff](https://stackoverflow.com/questions/7693170/javascript-convert-from-epoch-string-to-date-object)
+
 
 # unresolved problems
 
@@ -22,6 +27,17 @@
 I couldn't get the firestore setDoc function to not just overwrite the contents of the document, despite following the documentation's directive of passing {merge: true} as an argument. It didn't cause any errors, but it didn't have any affect either. Switched to updateDoc.
 
 # learned
+
+## forms
+[get form data](https://stackoverflow.com/questions/23427384/get-form-data-in-reactjs)
+[stop form reset](https://javascript.tutorialink.com/event-in-javascript-is-deprecated-and-i-cannot-use-preventdefault/)
+event.preventDefault() stops the form from resetting the whole page, but it has to be passed as an argument.
+```js
+const saveRevisionNotes = (event) => {
+        event.preventDefault()
+        console.log('updating firebase with revision notes...')
+    }
+```
 
 ## use auth hook
 

@@ -109,11 +109,10 @@ export default function Home() {
       <Auth />
 
       <main>
-        {
+        {/* {
           user 
           &&
           (user.uid == adminId)
-          // (user.uid == process.env.firebaseAdminUID)
           ?
           <Admin />
           :
@@ -122,7 +121,10 @@ export default function Home() {
             userAuth={user}
           />
           
-         }
+        } */}
+         {/* <Admin /> */}
+        <Client userAuth={user} />
+         {/* <Client /> */}
 
         
       </main>

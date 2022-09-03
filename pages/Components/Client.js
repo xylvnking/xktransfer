@@ -6,9 +6,11 @@ import {useAuthState} from "react-firebase-hooks/auth"
 
 
 export default function Client(props) {
+    function check() {
+        console.log(clientSongs)
+    }
     // const [userAuth, userAuthIsLoading, userAuthError] = useAuthState(auth)
     const [clientSongs, setClientSongs] = useState([])
-    // console.log(userAuth)
 
     // load client songs
     useEffect(() => {
@@ -31,31 +33,53 @@ export default function Client(props) {
         }
     },[props.userAuth])
 
-    function check() {
+    const handleTyping = (textareaValue, song) => {
+        // console.log(song)
+    }
 
-        console.log(clientSongs)
+    const saveRevisionNotes = (event) => {
+        event.preventDefault()
+        console.log('updating firebase with revision notes...')
+        const newRevisionNoteToBeSaved = event.target[0].value
+
     }
 
   return (
-    <main>
+    <main className={styles.clientContainer}>
         <button onClick={() => check()}>CHECK</button>
+        <br />
         {
-        props.userAuth &&
-        props.userAuth.uid
+            props.userAuth &&
+            props.userAuth.uid
         }
-        <section>
-            <ul className={styles.list}>
+        <section className={styles.songList}>
+            <ul className={styles.clientSongList}>
                 {
                     clientSongs &&
-                    clientSongs.map((song) => {
-                        console.log(clientSongs)
+                    clientSongs.map((song, index) => {
                         return (
-                            <ul>
-                                {Object.values(song).map((songDataValue) => <ul>
-                                <li>{Date.parse(Date(songDataValue.date))}</li>
-                                <li>{songDataValue.revisionNote}</li>
-                                <audio controls src={songDataValue.downloadURL}/>
-                                </ul>)}
+                            <ul key={index}className={styles.fileListItem}>
+                                {Object.values(song, index).map((songDataValue) => 
+                                    <ul key={songDataValue.date} className={styles.fileVersion}>
+                                        <li>{Date.parse(Date(songDataValue.date))}</li>
+                                        {/* <li>{songDataValue.revisionNote}</li> */}
+                                        <audio controls src={songDataValue.downloadURL}/>
+                                        <br />
+                                        
+                                        <form onSubmit={saveRevisionNotes}>
+                                            {/* <label for='revisionNote'>revision note</label> */}
+                                            <textarea
+                                                // id='revisionNote'
+                                                defaultValue={songDataValue.revisionNote}
+                                                className={styles.revisionTextArea}
+                                                onChange={(e) => handleTyping(e.target.value, song)} 
+                                            >
+                                            </textarea>
+                                            <button type="submit">save changes</button>
+                                            {/* <input type="button">suuub</input> */}
+                                        </form>
+                                    </ul>
+                                )}
                             </ul>
                         )
                     })
