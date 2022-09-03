@@ -23,6 +23,11 @@ I couldn't get the firestore setDoc function to not just overwrite the contents 
 
 # learned
 
+## use auth hook
+
+useAuth from the use react-firebase-hooks/auth gets its state changed often.
+I was using it as a trigger for the on-load dependancy array and it caused issues 
+
 ## react
 
 I ran into an issue which wasn't stopping me from moving forward but I needed to figure out what was happening.

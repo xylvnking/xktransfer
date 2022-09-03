@@ -10,7 +10,6 @@ import {
 } from "firebase/storage";
 import { storage } from '../../firebase/clientApp'
 import { collection, getDocs, doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
-
 import firebase, {auth, db, provider} from '../../firebase/clientApp'
 import Image from 'next/image';
 
@@ -60,22 +59,6 @@ function Admin() {
     console.log(clientListArray)
   }
 
-  // const getAllSongsByClient = async () => {
-  async function getAllSongsByClient () {
-    const cloneOfClientListArray = JSON.parse(JSON.stringify(clientListArray))
-    for (let z = 0; z < cloneOfClientListArray.length; z++) {
-      let songDoc = cloneOfClientListArray[z].uidWithoutNumberAtTheStart
-      const querySnapshot = await getDocs(collection(db, songDoc));
-      querySnapshot.forEach((doc) => {
-            if (doc.id !== 'settings') {
-              cloneOfClientListArray[z].songs = doc.data()
-            }
-          });
-    }
-
-    setClientListArray(cloneOfClientListArray)
-  }
-
   const [fileUpload, setFileUpload] = useState(null)
   const [fileUrl, setFileUrl] = useState(null)
 
@@ -84,7 +67,14 @@ function Admin() {
 
     const fileNameRegexed = fileUpload.name.replace(/.wav|.mp3|.jpg|.jpeg/, '')
     // console.log(`file name regexed is ${fileNameRegexed}`)
-    const songTitle = 'temporarySong2'
+
+
+
+    const songTitle = 'temporarySong2' // MAKE THIS THE FILENAME !!!!
+    // const songTitle = fileNameRegexed // MAKE THIS THE FILENAME !!!!
+
+
+
     let downloadURL = ''
     const folderRef = ref(storage, `masters/${fileUpload.name}`) // making a reference to the bucket + name to give file
     const docRef = doc(db, clientSelected.uidWithoutNumberAtTheStart, songTitle)
@@ -100,7 +90,8 @@ function Admin() {
           updateDoc(docRef, {
             [fileNameRegexed]: {
               downloadURL: downloadURL,
-              date: Date.parse(new Date()),
+              // date: Date.parse(new Date()),
+              date: new Date(),
               revisionNote: 'this iTHIRRRD schema works.'
             }
           })
@@ -110,7 +101,8 @@ function Admin() {
           setDoc(docRef, {
             [fileNameRegexed]: {
               downloadURL: downloadURL,
-              date: Date.parse(new Date()),
+              // date: Date.parse(new Date()),
+              date: new Date(),
               revisionNote: 'this is a SECOND REVISIONink this schema works.'
             }
           })
@@ -122,6 +114,12 @@ function Admin() {
   const fileInputOnChange = (event) => {
     setFileUpload(event.target.files[0])
     event.target.value = null;
+  }
+
+  const returnDate = (utcStringDate) => {
+    const yer = new Date(utcStringDate * 1000)
+    // console.log(yer)
+    return yer
   }
 
   return ( 
@@ -152,7 +150,8 @@ function Admin() {
                   /> }
                   <section className={styles.clientInfo}>
                     {x.displayName}
-                    {/* <br /> */}
+                    <br />
+                    <p className={styles.clientInfoCardEmail}>{x.uid}</p>
                     <p className={styles.clientInfoCardEmail}>{x.email}</p>
                   </section>
                 </li>
@@ -165,7 +164,14 @@ function Admin() {
                       <br />
                       <li>{song[songData].revisionNote}</li>
                       <br />
-                      <li><audio className={styles.audio} key={song[songData].date} controls src={song[songData].downloadURL}></audio></li>
+                      {/* <li>{(new Date(song[songData].date.seconds)).toString()}</li> */}
+                      {/* <li>{song[songData].date.seconds}</li> */}
+                      <li>{returnDate(song[songData].date.seconds).toLocaleString()}</li>
+                      {/* <li>{returnDate(song[songData].date.seconds).toISOString()}</li> */}
+                      {/* <li>{song[songData].date.toString()}</li> */}
+                      {/* <li>{console.log(song[songData].date)}</li> */}
+                      {/* <br /> */}
+                      <li><audio className={styles.audio} key={song[songData].getDownloadURL} controls src={song[songData].downloadURL}></audio></li>
                       
                     </ul>)}
                   </ul>)}

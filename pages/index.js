@@ -2,13 +2,18 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import React, {useState, useEffect} from 'react'
+
 import Auth from './Components/Auth'
 import Admin from './Components/Admin'
+import Client from './Components/Client'
+
+
 import {useAuthState} from "react-firebase-hooks/auth"
 import { collection, addDoc } from "firebase/firestore"; 
 
 
 import firebase, {auth, db, provider} from '../firebase/clientApp'
+import { useRouter } from 'next/router'
 // import firebase, {auth, db, provider} from '../firebase/clientApp'
 
 // import { auth } from '../firebase/clientApp'
@@ -104,9 +109,6 @@ export default function Home() {
       <Auth />
 
       <main>
-        {/* <h1>
-          XKTransfer
-        </h1> */}
         {
           user 
           &&
@@ -115,7 +117,10 @@ export default function Home() {
           ?
           <Admin />
           :
-          null
+          <Client 
+          
+            userAuth={user}
+          />
           
          }
 
