@@ -62,19 +62,25 @@ function Admin() {
   const [fileUpload, setFileUpload] = useState(null)
   const [fileUrl, setFileUrl] = useState(null)
 
-  const uploadFile = async () => {
+  const uploadFile = async (event) => {
+    event.preventDefault()
+    // console.log(event.target.files[0])
+    console.log(event.target[0].files[0].name)
+    // console.log(event.target[1].value)
     if (fileUpload == null) return;
 
-    const fileNameRegexed = fileUpload.name.replace(/.wav|.mp3|.jpg|.jpeg/, '')
+    // const fileNameRegexed = fileUpload.name.replace(/.wav|.mp3|.jpg|.jpeg/, '')
+    const fileNameRegexed = event.target[0].files[0].name.replace(/.wav|.mp3|.jpg|.jpeg/, '')
     // console.log(`file name regexed is ${fileNameRegexed}`)
 
 
 
-    const songTitle = 'song2' // MAKE THIS THE FILENAME !!!!
+    // const songTitle = 'song2' // MAKE THIS THE FILENAME !!!!
+    const songTitle = event.target[1].value 
+
+
+
     // const songTitle = fileNameRegexed // MAKE THIS THE FILENAME !!!!
-
-
-
     let downloadURL = ''
     const folderRef = ref(storage, `masters/${fileUpload.name}`) // making a reference to the bucket + name to give file
     const docRef = doc(db, clientSelected.uidWithoutNumberAtTheStart, songTitle)
@@ -117,8 +123,8 @@ function Admin() {
 
   const fileInputOnChange = (event) => {
     setFileUpload(event.target.files[0])
-    console.log(event.target.files[1])
-    event.target.value = null;
+    // console.log(event.target.files[0])
+    // event.target.value = null;
   }
 
   const returnDate = (utcStringDate) => {
@@ -131,12 +137,14 @@ function Admin() {
 
       {/* YOU HAVE TO MAKE THIS A FORM instead */}
 
-
-      <label htmlFor='fileSelectionButton' className={styles.uploadButton}>Select file...</label>
-      <input id='fileSelectionButton' type="file" style={{display: 'none'}} onChange={(event) => {fileInputOnChange(event)}}/>
-      <input type='text' defaultValue='enter the song title here'></input>
-      <label htmlFor='uploadButton' className={styles.uploadButton}>Upload File</label>
-      <button id='uploadButton' onClick={uploadFile} style={{display: 'none'}} > Upload Image</button>
+      <form onSubmit={uploadFile}>
+        <label htmlFor='fileSelectionButton' className={styles.uploadButton}>Select file...</label>
+        <input id='fileSelectionButton' type="file" style={{display: 'none'}} onChange={(event) => {fileInputOnChange(event)}}/>
+        <input type='text' defaultValue='enter the song title here'></input>
+        <button type="submit">upload file</button>
+      </form>
+      {/* <label htmlFor='uploadButton' className={styles.uploadButton}>Upload File</label>
+      <button id='uploadButton' onClick={uploadFile} style={{display: 'none'}} > Upload Image</button> */}
 
       <h3>File chosen for upload: {fileUpload ? fileUpload.name : ""}</h3>
       <button onClick={() => check()}>CHECK</button>
@@ -168,7 +176,7 @@ function Admin() {
                   {x.songs.map((song, index) => <ul key={x.uid + index} className={styles.fileListItem}>
 
                     <li>{Object.values(song).map((songDataValues) => songDataValues.songName)}</li>
-                    
+
                     {Object.keys(song).map((songData, index) => <ul key={index} className={styles.fileVersion}>
                       <li>{song[songData].songName}</li>
                       <li>{songData}</li>
