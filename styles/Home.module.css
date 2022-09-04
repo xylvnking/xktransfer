@@ -15,7 +15,7 @@
   padding: 0px;
   margin: 0px;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
 }
 
 .clientContainer {
@@ -190,4 +190,5 @@
 .revisionTextArea {
   width: 100%;
   min-height: 200px;
+  resize: none;
 }

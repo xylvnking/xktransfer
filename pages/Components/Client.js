@@ -6,19 +6,20 @@ import {useAuthState} from "react-firebase-hooks/auth"
 
 import TextareaAutosize from 'react-textarea-autosize';
 
-
+const siteNameTemporary = 'localhost:3000'
 
 export default function Client(props) {
     function check() {
         console.log(clientSongs)
     }
-    // const [userAuth, userAuthIsLoading, userAuthError] = useAuthState(auth)
+    const [userAuth, userAuthIsLoading, userAuthError] = useAuthState(auth)
     const [clientSongs, setClientSongs] = useState([])
     
     // load client songs
     useEffect(() => {
-        if (props.userAuth && clientSongs.length == 0) {
-            const clientCollection = 'clientID' + props.userAuth.uid
+        if (userAuth && clientSongs.length == 0) {
+            // const clientCollection = 'clientID' + props.userAuth.uid
+            const clientCollection = 'clientID' + userAuth.uid
             async function getClientSongs() {
                 const querySnapshot = await getDocs(collection(db, clientCollection));
                 querySnapshot.forEach((doc) => {
@@ -34,24 +35,25 @@ export default function Client(props) {
             }
             getClientSongs()
         }
-    },[props.userAuth])
+    },[userAuth])
 
     const handleTyping = (textareaValue, song) => {
     }
 
     const saveRevisionNotes = (event) => {
         event.preventDefault()
-        const clientCollection = 'clientID' + props.userAuth.uid
+        const clientCollection = 'clientID' + userAuth.uid
+        const songNameBeingUpdated = event.target[4].value
 
-        const fileVersionBeingUpdated = {
-            date: new Date(),
-            downloadURL: event.target[1].value,
-            fileNameRegexed: event.target[2].value,
-            revisionNote: event.target[3].value,
-            songName: event.target[4].value,
-        }
+        // const fileVersionBeingUpdated = {
+        //     date: new Date(),
+        //     downloadURL: event.target[1].value,
+        //     fileNameRegexed: event.target[2].value,
+        //     revisionNote: event.target[3].value,
+        //     songName: event.target[4].value,
+        // }
 
-        const docRef = doc(db, clientCollection, fileVersionBeingUpdated.songName)
+        const docRef = doc(db, clientCollection, songNameBeingUpdated)
         updateDoc(docRef, {
             [event.target[2].value]: {
             date: new Date(),
@@ -68,8 +70,8 @@ export default function Client(props) {
         <button onClick={() => check()}>CHECK</button>
         <br />
         {
-            props.userAuth &&
-            props.userAuth.uid
+            userAuth &&
+            userAuth.uid
         }
         <section className={styles.songList}>
             <ul className={styles.clientSongList}>
@@ -80,9 +82,12 @@ export default function Client(props) {
                             <ul key={index1}className={styles.fileListItem}>
                                 {Object.values(song).map((songDataValue) => // for each file version
                                     <ul key={songDataValue.date} className={styles.fileVersion}>
-                                        <li>{Date.parse(Date(songDataValue.date))}</li>
+                                        {/* <li>{Date.parse(Date(songDataValue.date))}</li> */}
                                         <li>{songDataValue.songName}</li>
                                         <li>{songDataValue.fileNameRegexed}</li>
+                                        {/* this button gets a link to a dynamic page populated with the song name and file url for sharing */}
+                                        <button onClick={() => navigator.clipboard.writeText(siteNameTemporary + '/Components/' + songDataValue.songName + '?foo=' + songDataValue.downloadURL)}>copy shareable URL to clipboard 📋 </button>
+                                        <br />
                                         {/* <li>{songDataValue.revisionNote}</li> */}
                                         <audio controls src={songDataValue.downloadURL}/>
                                         <br />
@@ -98,7 +103,9 @@ export default function Client(props) {
                                                 defaultValue={songDataValue.revisionNote}
                                                 className={styles.revisionTextArea}
                                                 onChange={(e) => handleTyping(e.target.value, song)} 
+                                                
                                             />
+                                            <br />
                                             <input readOnly={true} value={songDataValue.songName} style={{display: 'none'}}></input>
                                             <button type="submit">save changes</button>
                                             {/* <input type="button">suuub</input> */}

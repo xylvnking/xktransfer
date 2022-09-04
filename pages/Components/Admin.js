@@ -1,23 +1,20 @@
 // import React from 'react'
 import React, {useState, useEffect} from 'react'
 import styles from '../../styles/Home.module.css'
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  listAll,
-  list,
-} from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL, listAll, list, getStorage, deleteObject} from "firebase/storage";
 import { storage } from '../../firebase/clientApp'
-import { collection, getDocs, doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc, updateDoc, setDoc, deleteDoc } from "firebase/firestore";
 import firebase, {auth, db, provider} from '../../firebase/clientApp'
 import Image from 'next/image';
 
+// const storage = getStorage();
+
 function Admin() {
 
-  const [clientList, setClientList] = useState(null)
+  const [clientList, setClientList] = useState([])
   const [clientListArray, setClientListArray] = useState([])
   const [clientSelected, setClientSelected] = useState(null)
+  const [songSelected, setSongSelected] = useState('')
   
   
   useEffect(() => { // load client list
@@ -28,8 +25,18 @@ function Admin() {
           const docRef = doc(db, "admin", "clientList");
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
-            const yes = docSnap.data()
-            setClientList(yes)
+
+            // getting list of clients uid to populate form
+            if (clientList.length == 0) {
+              Object.keys(docSnap.data()).map((value) => setClientList((current) => {
+                return [
+                  ...current,
+                  value
+                ]
+              }))
+            }
+            
+            // get all client data, except songs
             const tempArray = []
             Object.values(docSnap.data()).map((value) => tempArray.push(value))
 
@@ -38,7 +45,6 @@ function Admin() {
               const tempSongsArray = []
               let songDoc = tempArray[z].uidWithoutNumberAtTheStart
               const querySnapshot = await getDocs(collection(db, songDoc));
-              // console.log('looper')
               querySnapshot.forEach((doc) => {
                 if (doc.id !== 'settings') {
                   tempSongsArray.push(doc.data())
@@ -56,10 +62,11 @@ function Admin() {
   }, [])
 
   function check() {
-    console.log(clientListArray)
+    console.log(clientSelected)
   }
 
-  const [fileUpload, setFileUpload] = useState(null)
+
+  const [fileUpload, setFileUpload] = useState(null) // this gets set to a file
   const [fileUrl, setFileUrl] = useState(null)
 
   const uploadFile = async (event) => {
@@ -71,16 +78,13 @@ function Admin() {
 
     // const fileNameRegexed = fileUpload.name.replace(/.wav|.mp3|.jpg|.jpeg/, '')
     const fileNameRegexed = event.target[0].files[0].name.replace(/.wav|.mp3|.jpg|.jpeg/, '')
-    // console.log(`file name regexed is ${fileNameRegexed}`)
 
 
-
-    // const songTitle = 'song2' // MAKE THIS THE FILENAME !!!!
     const songTitle = event.target[1].value 
 
 
 
-    // const songTitle = fileNameRegexed // MAKE THIS THE FILENAME !!!!
+
     let downloadURL = ''
     const folderRef = ref(storage, `masters/${fileUpload.name}`) // making a reference to the bucket + name to give file
     const docRef = doc(db, clientSelected.uidWithoutNumberAtTheStart, songTitle)
@@ -91,21 +95,8 @@ function Admin() {
       getDownloadURL(snapshot.ref).then((url) => { // get uploaded document URL
         downloadURL = url
 
-        if (docSnap.exists()) { // if the song has already been created, update it
-          console.log('song exists')
-          updateDoc(docRef, {
-            [fileNameRegexed]: {
-              downloadURL: downloadURL,
-              // date: Date.parse(new Date()),
-              fileNameRegexed: fileNameRegexed,
-              songName: songTitle,
-              date: new Date(),
-              revisionNote: 'this iTHIRRRD schema works.'
-            }
-          })
+        if (docSnap.exists()) {
 
-        } else { // if th song doesn't exist, create a document for it
-          console.log('song doesnt exist')
           setDoc(docRef, {
             [fileNameRegexed]: {
               downloadURL: downloadURL,
@@ -113,7 +104,33 @@ function Admin() {
               fileNameRegexed: fileNameRegexed,
               songName: songTitle,
               date: new Date(),
-              revisionNote: 'this is a SECOND REVISIONink this schema works.'
+              revisionNote: '',
+              fileNameRaw: event.target[0].files[0].name
+
+            }
+          })
+          // updateDoc(docRef, {
+          //   [fileNameRegexed]: {
+          //     downloadURL: downloadURL,
+          //     // date: Date.parse(new Date()),
+          //     fileNameRegexed: fileNameRegexed,
+          //     songName: songTitle,
+          //     date: new Date(),
+          //     revisionNote: 'this iTHIRRRD schema works.',
+          //     isMostRecentVersion: true
+          //   }
+          // })
+
+        } else {
+          setDoc(docRef, {
+            [fileNameRegexed]: {
+              downloadURL: downloadURL,
+              // date: Date.parse(new Date()),
+              fileNameRegexed: fileNameRegexed,
+              songName: songTitle,
+              date: new Date(),
+              revisionNote: '',
+              fileNameRaw: event.target[0].files[0].name
             }
           })
         }
@@ -132,22 +149,42 @@ function Admin() {
     return yer
   }
 
+  const deleteSong = async (fileNameOfSongToBeDeletedFromFirestore, songNameOfSongToBeDeletedFromFirestore, clientUidWithoutNumberAtTheStart) => {
+    if (fileNameOfSongToBeDeletedFromFirestore) {
+
+      const songReference = ref(storage, 'masters/' + fileNameOfSongToBeDeletedFromFirestore);
+      deleteObject(songReference).then(() => {
+        deleteDoc(doc(db, clientUidWithoutNumberAtTheStart.uidWithoutNumberAtTheStart, songNameOfSongToBeDeletedFromFirestore))
+        console.log('file deleted!')
+      }).catch((error) => {
+        console.log(error)
+      })
+
+      
+
+    } else {
+      console.log('file didnt exist apparently')
+    }
+  } 
+
   return ( 
     <div className={styles.admin}>
-
-      {/* YOU HAVE TO MAKE THIS A FORM instead */}
-
       <form onSubmit={uploadFile}>
         <label htmlFor='fileSelectionButton' className={styles.uploadButton}>Select file...</label>
         <input id='fileSelectionButton' type="file" style={{display: 'none'}} onChange={(event) => {fileInputOnChange(event)}}/>
-        <input type='text' defaultValue='enter the song title here'></input>
+        <input type='text' defaultValue={songSelected}></input>
+        <select>
+          {clientList.map((client) => {
+            return (
+              <option key={client}>{client}</option>
+              )
+            })}
+        </select>
         <button type="submit">upload file</button>
       </form>
-      {/* <label htmlFor='uploadButton' className={styles.uploadButton}>Upload File</label>
-      <button id='uploadButton' onClick={uploadFile} style={{display: 'none'}} > Upload Image</button> */}
+      <button onClick={() => check()}>CHECK</button>
 
       <h3>File chosen for upload: {fileUpload ? fileUpload.name : ""}</h3>
-      <button onClick={() => check()}>CHECK</button>
       {clientSelected && <h5>client selected: {clientSelected.displayName} {clientSelected.uid}</h5>}
 
       <ul className={styles.list}>
@@ -174,16 +211,16 @@ function Admin() {
 
                 <ul className={styles.songList}>
                   {x.songs.map((song, index) => <ul key={x.uid + index} className={styles.fileListItem}>
-
-                    <li>{Object.values(song).map((songDataValues) => songDataValues.songName)}</li>
-
-                    {Object.keys(song).map((songData, index) => <ul key={index} className={styles.fileVersion}>
+                    {Object.keys(song).map((songData, index) => <ul key={index} className={styles.fileVersion} onClick={() => setSongSelected(song[songData].songName)}>
                       <li>{song[songData].songName}</li>
                       <li>{songData}</li>
                       <br />
                       <li>{song[songData].revisionNote}</li>
                       <br />
-                      <li>{returnDate(song[songData].date.seconds).toLocaleString()}</li>
+                      <li>{song[songData].fileNameRaw}</li>
+                      <button onClick={() => deleteSong(song[songData].fileNameRaw, song[songData].songName, x)}>DELETE</button>
+                      <br />
+                      {/* <li>{returnDate(song[songData].date.seconds).toLocaleString()}</li> */}
                       <li><audio className={styles.audio} key={song[songData].getDownloadURL} controls src={song[songData].downloadURL}></audio></li>
                       
                     </ul>)}

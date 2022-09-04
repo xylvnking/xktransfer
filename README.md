@@ -71,3 +71,14 @@ function Admin() {
 }
 
 ```
+
+## next
+
+### dynamic routes
+
+[doc](https://nextjs.org/docs/routing/dynamic-routes)
+
+I needed a way for clients to be able to share the song with others if they wanted to.
+
+I used dynamic routes and passed in the song name as the route, and link as the parameter. The routing doesn't support multiple parameters right now which is fine for this project - if I wanted to work around that I could do some regex trickerey to add them all up before sending and then decoding them on the dynamic page, but it's not needed.
+

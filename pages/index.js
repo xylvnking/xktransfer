@@ -109,7 +109,7 @@ export default function Home() {
       <Auth />
 
       <main>
-        {
+        {/* {
           user 
           &&
           (user.uid == adminId)
@@ -118,10 +118,9 @@ export default function Home() {
           :
           <Client userAuth={user}/>
           
-        }
+        } */}
          {/* <Admin /> */}
-        {/* <Client userAuth={user} /> */}
-         {/* <Client /> */}
+        <Client userAuth={user} />
 
         
       </main>
