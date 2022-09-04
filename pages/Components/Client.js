@@ -14,7 +14,7 @@ export default function Client(props) {
     }
     // const [userAuth, userAuthIsLoading, userAuthError] = useAuthState(auth)
     const [clientSongs, setClientSongs] = useState([])
-
+    
     // load client songs
     useEffect(() => {
         if (props.userAuth && clientSongs.length == 0) {
@@ -42,45 +42,25 @@ export default function Client(props) {
     const saveRevisionNotes = (event) => {
         event.preventDefault()
         const clientCollection = 'clientID' + props.userAuth.uid
-        console.log('updating firebase with revision notes...')
-        // const fileVersionBeingUpdated = event.target[2].value
 
         const fileVersionBeingUpdated = {
-            date: event.target[0].value,
+            date: new Date(),
             downloadURL: event.target[1].value,
             fileNameRegexed: event.target[2].value,
             revisionNote: event.target[3].value,
             songName: event.target[4].value,
-        } 
-        // const songBeingUpdated = event.target[0].value
-        // const fileVersionBeingUpdated = event.target[1].value
-        // const revisionNoteBeingUpdated = event.target[2].value
-        
-        // console.log(`songBeingUpdated: ${songBeingUpdated}`)
-        // console.log(`file version being updated: ${fileVersionBeingUpdated}`)
-        // console.log(`revisionNoteBeingUpdated: ${revisionNoteBeingUpdated}`)
+        }
 
         const docRef = doc(db, clientCollection, fileVersionBeingUpdated.songName)
         updateDoc(docRef, {
             [event.target[2].value]: {
-            date: event.target[0].value,
+            date: new Date(),
             downloadURL: event.target[1].value,
             fileNameRegexed: event.target[2].value,
             revisionNote: event.target[3].value,
             songName: event.target[4].value,
             }
         })
-
-        // console.log(`the revision note is: ${event.target[1].value}`)
-        // console.log(`the song/document name is: ${event.target[0].value}`)
-        // console.log(event.target[0].value)
-        // console.log(event.target[1].value)
-        // console.log(event.target[2].value)
-        // console.log(event.target[5].value)
-        // console.log(`collection to be updated is: ${clientCollection}`)
-
-
-
     }
 
   return (

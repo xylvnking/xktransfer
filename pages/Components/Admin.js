@@ -117,6 +117,7 @@ function Admin() {
 
   const fileInputOnChange = (event) => {
     setFileUpload(event.target.files[0])
+    console.log(event.target.files[1])
     event.target.value = null;
   }
 
@@ -127,9 +128,13 @@ function Admin() {
 
   return ( 
     <div className={styles.admin}>
+
+      {/* YOU HAVE TO MAKE THIS A FORM instead */}
+
+
       <label htmlFor='fileSelectionButton' className={styles.uploadButton}>Select file...</label>
       <input id='fileSelectionButton' type="file" style={{display: 'none'}} onChange={(event) => {fileInputOnChange(event)}}/>
-
+      <input type='text' defaultValue='enter the song title here'></input>
       <label htmlFor='uploadButton' className={styles.uploadButton}>Upload File</label>
       <button id='uploadButton' onClick={uploadFile} style={{display: 'none'}} > Upload Image</button>
 
@@ -161,19 +166,16 @@ function Admin() {
 
                 <ul className={styles.songList}>
                   {x.songs.map((song, index) => <ul key={x.uid + index} className={styles.fileListItem}>
+
+                    <li>{Object.values(song).map((songDataValues) => songDataValues.songName)}</li>
                     
                     {Object.keys(song).map((songData, index) => <ul key={index} className={styles.fileVersion}>
+                      <li>{song[songData].songName}</li>
                       <li>{songData}</li>
                       <br />
                       <li>{song[songData].revisionNote}</li>
                       <br />
-                      {/* <li>{(new Date(song[songData].date.seconds)).toString()}</li> */}
-                      {/* <li>{song[songData].date.seconds}</li> */}
                       <li>{returnDate(song[songData].date.seconds).toLocaleString()}</li>
-                      {/* <li>{returnDate(song[songData].date.seconds).toISOString()}</li> */}
-                      {/* <li>{song[songData].date.toString()}</li> */}
-                      {/* <li>{console.log(song[songData].date)}</li> */}
-                      {/* <br /> */}
                       <li><audio className={styles.audio} key={song[songData].getDownloadURL} controls src={song[songData].downloadURL}></audio></li>
                       
                     </ul>)}
