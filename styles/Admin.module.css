@@ -1,0 +1,42 @@
+.admin {
+    background-color: rgb(208, 89, 255);
+    border-radius: 10px;
+    color: black;
+    padding: 10px;
+    padding-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.adminForm {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    /* align-items: center; */
+    gap: 10px;
+    background-color: rgb(255, 255, 255);
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 450px;
+}
+
+.adminFormButton {
+  border-style: solid;
+  border-radius: 10px;
+  padding: 10px;
+  color:  rgb(132, 132, 132);
+  border-color:  rgb(132, 132, 132);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 150px;
+
+  /* background-color: rgb(132, 132, 132); */
+}
+
+.adminFormButtonUpload{
+    font-size: 16px;
+    padding: 10px;
+}

@@ -1,6 +1,7 @@
 // import React from 'react'
 import React, {useState, useEffect} from 'react'
 import styles from '../../styles/Home.module.css'
+import adminStyles from '../../styles/Admin.module.css'
 import { ref, uploadBytes, getDownloadURL, listAll, list, getStorage, deleteObject} from "firebase/storage";
 import { storage } from '../../firebase/clientApp'
 import { collection, getDocs, doc, getDoc, updateDoc, setDoc, deleteDoc } from "firebase/firestore";
@@ -168,9 +169,9 @@ function Admin() {
   } 
 
   return ( 
-    <div className={styles.admin}>
-      <form onSubmit={uploadFile}>
-        <label htmlFor='fileSelectionButton' className={styles.uploadButton}>Select file...</label>
+    <div className={adminStyles.admin}>
+      <form className={adminStyles.adminForm} onSubmit={uploadFile}>
+        <label htmlFor='fileSelectionButton' className={adminStyles.adminFormButton}>Select File</label>
         <input id='fileSelectionButton' type="file" style={{display: 'none'}} onChange={(event) => {fileInputOnChange(event)}}/>
         <input type='text' defaultValue={songSelected}></input>
         <select>
@@ -180,9 +181,9 @@ function Admin() {
               )
             })}
         </select>
-        <button type="submit">upload file</button>
+        <button type="submit" className={adminStyles.adminFormButtonUpload}>upload file</button>
       </form>
-      <button onClick={() => check()}>CHECK</button>
+      {/* <button onClick={() => check()}>CHECK</button> */}
 
       <h3>File chosen for upload: {fileUpload ? fileUpload.name : ""}</h3>
       {clientSelected && <h5>client selected: {clientSelected.displayName} {clientSelected.uid}</h5>}
