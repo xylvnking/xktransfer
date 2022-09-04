@@ -1,24 +1,56 @@
 .admin {
-    background-color: rgb(208, 89, 255);
-    border-radius: 10px;
+    
+    /* background-color: rgb(255, 255, 255); */
+    /* background-image: url('https://www.toptal.com/designers/subtlepatterns/uploads/topography.png'); */
+    /* border-color: white;
+    border-style: solid;
+    border-width: 2.5px;
+    border-radius: 10px; */
+
     color: black;
     padding: 10px;
     padding-top: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
+
 }
 
+
 .adminForm {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
     display: flex;
     flex-direction: column;
     /* justify-content: center; */
     /* align-items: center; */
+    border-color: rgb(0, 0, 0);
+    border-width: 1px;
+    border-radius: 10px;
+    border-style: solid;
+
     gap: 10px;
     background-color: rgb(255, 255, 255);
     padding: 10px;
-    border-radius: 10px;
+    margin-bottom: 20px;
     max-width: 450px;
+}
+
+
+.selectFileContainer {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.fileSelectedName {
+    /* width: 10ch; */
+    font-size: 12px;
+    padding-left: 10px;
+
+    width: 20ch;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .adminFormButton {
@@ -33,10 +65,83 @@
   justify-content: center;
   max-width: 150px;
 
-  /* background-color: rgb(132, 132, 132); */
 }
 
 .adminFormButtonUpload{
     font-size: 16px;
     padding: 10px;
+    border-radius: 10px;
+    border-width: 0px;
+    /* border-width: 0px; */
+    /* box-shadow: none; */
+}
+
+.client {
+    /* box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px; */
+  
+  max-width: 450px;
+  list-style: none;
+  padding: 0px;
+  background-color: rgb(0, 0, 0);
+  
+  border-radius: 10px;
+  /* border-style: solid;
+  border-color: rgb(0, 0, 0);
+  border-width: 2px; */
+  
+  margin: 10px;
+
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+
+  background-image: url('https://www.toptal.com/designers/subtlepatterns/uploads/memphis-mini-dark.png');
+  background-attachment: fixed;
+  
+  
+}
+
+.clientInfoCard {
+    display: grid;
+  grid-template-columns: 75px 1fr;
+  align-items: center;
+
+  /* background-color: rgb(67, 67, 67); */
+  color: white;
+
+  padding: 10px;
+  padding-bottom: 0px;
+  margin: 10px;
+  border-radius: 10px;
+  /* border-style: solid;
+  border-color: rgb(255, 255, 255); */
+  /* width: 100%; */
+  /* width: 90%; */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.clientInfo {
+    /* background-color: rgb(0, 213, 255); */
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    max-width: 300px;
+    /* max-width: 300px; */
+}
+
+.clientInfoCardEmail {
+    padding: 0px;
+    
+    /* color: red; */
+    font-size: small;
+    max-width: 175px;
+    
+    overflow: hidden;
+    /* overflow: auto; */
+    /* overflow: -moz-hidden-unscrollable; */
+    /* white-space: nowrap; */
+    text-overflow: ellipsis;
+    margin: 0px;
 }

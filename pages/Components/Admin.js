@@ -2,6 +2,7 @@
 import React, {useState, useEffect} from 'react'
 import styles from '../../styles/Home.module.css'
 import adminStyles from '../../styles/Admin.module.css'
+import songStyles from '../../styles/Song.module.css'
 import { ref, uploadBytes, getDownloadURL, listAll, list, getStorage, deleteObject} from "firebase/storage";
 import { storage } from '../../firebase/clientApp'
 import { collection, getDocs, doc, getDoc, updateDoc, setDoc, deleteDoc } from "firebase/firestore";
@@ -71,22 +72,14 @@ function Admin() {
   const [fileUrl, setFileUrl] = useState(null)
 
   const uploadFile = async (event) => {
-    event.preventDefault()
-    // console.log(event.target.files[0])
+    event.preventDefault() // prevents form fomr refreshing page, just in case you want it later
     console.log(event.target[0].files[0].name)
-    // console.log(event.target[1].value)
     if (fileUpload == null) return;
 
-    // const fileNameRegexed = fileUpload.name.replace(/.wav|.mp3|.jpg|.jpeg/, '')
     const fileNameRegexed = event.target[0].files[0].name.replace(/.wav|.mp3|.jpg|.jpeg/, '')
 
-
-    const songTitle = event.target[1].value 
-
-
-
-
     let downloadURL = ''
+    const songTitle = event.target[1].value 
     const folderRef = ref(storage, `masters/${fileUpload.name}`) // making a reference to the bucket + name to give file
     const docRef = doc(db, clientSelected.uidWithoutNumberAtTheStart, songTitle)
     const docSnap = await getDoc(docRef)
@@ -107,21 +100,8 @@ function Admin() {
               date: new Date(),
               revisionNote: '',
               fileNameRaw: event.target[0].files[0].name
-
             }
           })
-          // updateDoc(docRef, {
-          //   [fileNameRegexed]: {
-          //     downloadURL: downloadURL,
-          //     // date: Date.parse(new Date()),
-          //     fileNameRegexed: fileNameRegexed,
-          //     songName: songTitle,
-          //     date: new Date(),
-          //     revisionNote: 'this iTHIRRRD schema works.',
-          //     isMostRecentVersion: true
-          //   }
-          // })
-
         } else {
           setDoc(docRef, {
             [fileNameRegexed]: {
@@ -141,8 +121,7 @@ function Admin() {
 
   const fileInputOnChange = (event) => {
     setFileUpload(event.target.files[0])
-    // console.log(event.target.files[0])
-    // event.target.value = null;
+    // event.target.value = null // unsure if i need this, keeping it for later in case debugging and need option
   }
 
   const returnDate = (utcStringDate) => {
@@ -171,9 +150,12 @@ function Admin() {
   return ( 
     <div className={adminStyles.admin}>
       <form className={adminStyles.adminForm} onSubmit={uploadFile}>
-        <label htmlFor='fileSelectionButton' className={adminStyles.adminFormButton}>Select File</label>
-        <input id='fileSelectionButton' type="file" style={{display: 'none'}} onChange={(event) => {fileInputOnChange(event)}}/>
-        <input type='text' defaultValue={songSelected}></input>
+        <div className={adminStyles.selectFileContainer}>
+          <label htmlFor='fileSelectionButton' className={adminStyles.adminFormButton}>Select File</label>
+          <input id='fileSelectionButton' type="file" style={{display: 'none'}} onChange={(event) => {fileInputOnChange(event)}}/>
+          <p className={adminStyles.fileSelectedName}>{fileUpload ? fileUpload.name : ""}</p>
+        </div>
+        <input type='text' defaultValue={songSelected}/>
         <select>
           {clientList.map((client) => {
             return (
@@ -185,44 +167,54 @@ function Admin() {
       </form>
       {/* <button onClick={() => check()}>CHECK</button> */}
 
-      <h3>File chosen for upload: {fileUpload ? fileUpload.name : ""}</h3>
-      {clientSelected && <h5>client selected: {clientSelected.displayName} {clientSelected.uid}</h5>}
+      
+      {/* {clientSelected && <h5>client selected: {clientSelected.displayName} {clientSelected.uid}</h5>} */}
 
       <ul className={styles.list}>
         {clientListArray &&
           clientListArray.map((x) => {
             return (
-              <ul key={x.uid} className={styles.clientInfoListItem} onClick={() => setClientSelected(x)}>
-                <li className={styles.clientInfoCard}>
+              <ul key={x.uid} className={adminStyles.client} onClick={() => setClientSelected(x)}>
+                <li className={adminStyles.clientInfoCard}>
                   {<Image 
                   key={x.uid}
                   src={x.photoURL} 
-                  className={styles.userIcon}
+                  // className={styles.userIcon}
                   alt="User Photo" 
                   width={'100%'} 
                   height={'100%'} 
+                  style={{
+                    overflow:'hidden',
+                    borderRadius: '50%',
+                    borderStyle: 'solid',
+                    borderWidth: '2px',
+                    borderColor: 'rgb(255, 255, 255)'
+                    
+                  }}
                   /> }
-                  <section className={styles.clientInfo}>
+                  <section className={adminStyles.clientInfo}>
                     {x.displayName}
                     <br />
-                    <p className={styles.clientInfoCardEmail}>{x.uid}</p>
-                    <p className={styles.clientInfoCardEmail}>{x.email}</p>
+                    <p className={adminStyles.clientInfoCardEmail}>{x.uid}</p>
+                    <p className={adminStyles.clientInfoCardEmail}>{x.email}</p>
                   </section>
                 </li>
 
-                <ul className={styles.songList}>
-                  {x.songs.map((song, index) => <ul key={x.uid + index} className={styles.fileListItem}>
-                    {Object.keys(song).map((songData, index) => <ul key={index} className={styles.fileVersion} onClick={() => setSongSelected(song[songData].songName)}>
-                      <li>{song[songData].songName}</li>
-                      <li>{songData}</li>
+                <ul className={songStyles.songList}>
+                  {x.songs.map((song, index) => <ul key={x.uid + index} className={songStyles.fileListItem}>
+                    {Object.keys(song).map((songData, index) => <ul key={index} className={songStyles.fileVersion} onClick={() => setSongSelected(song[songData].songName)}>
+                      <li className={songStyles.songName}>{song[songData].songName}</li>
+                      {/* <li>{songData}</li> */}
+                      <li className={songStyles.filename}>{song[songData].fileNameRaw}</li>
                       <br />
-                      <li>{song[songData].revisionNote}</li>
-                      <br />
-                      <li>{song[songData].fileNameRaw}</li>
-                      <button onClick={() => deleteSong(song[songData].fileNameRaw, song[songData].songName, x)}>DELETE</button>
+                      <li className={songStyles.revisionNote}>{song[songData].revisionNote}</li>
                       <br />
                       {/* <li>{returnDate(song[songData].date.seconds).toLocaleString()}</li> */}
                       <li><audio className={styles.audio} key={song[songData].getDownloadURL} controls src={song[songData].downloadURL}></audio></li>
+                      {/* <label htmlFor='deleteSongButton' className={adminStyles.adminFormButton}>delete</label> */}
+                      <div style={{display: 'flex', justifyContent: 'end'}}>
+                        <button onClick={() => deleteSong(song[songData].fileNameRaw, song[songData].songName, x)} className={songStyles.songDeleteButton}>DELETE</button>
+                      </div>
                       
                     </ul>)}
                   </ul>)}

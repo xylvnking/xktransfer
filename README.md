@@ -9,6 +9,7 @@
 
 # quick tools ref
 [hex color picker](https://htmlcolorcodes.com/color-picker/)
+[repeating memphis background](https://www.toptal.com/designers/subtlepatterns/tag/dark/page/2/)
 
 # so ref
 
