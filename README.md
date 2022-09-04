@@ -28,6 +28,12 @@ I couldn't get the firestore setDoc function to not just overwrite the contents 
 
 # learned
 
+# dev experience
+
+creating buttons which log important data is super helpful
+
+also creating a mock data instead of creating one as if you're actually using the app speeds things up if you need to make changes to the data structure
+
 ## forms
 [get form data](https://stackoverflow.com/questions/23427384/get-form-data-in-reactjs)
 [stop form reset](https://javascript.tutorialink.com/event-in-javascript-is-deprecated-and-i-cannot-use-preventdefault/)

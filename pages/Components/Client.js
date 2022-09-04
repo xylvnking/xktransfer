@@ -24,16 +24,6 @@ export default function Client(props) {
                 querySnapshot.forEach((doc) => {
                     if (doc.id !== 'settings') {
                         setClientSongs(current => {
-
-
-
-                            // you could probably get the song name (document name) here, but it might change
-                            // the data structure which you're then iterating over
-                            // another option is to just save it with each song entry, 
-                            // which might be better tbh even if it's duplicate data - it is simpler
-
-
-
                             return [
                                 ...current,
                                 doc.data()
@@ -47,26 +37,49 @@ export default function Client(props) {
     },[props.userAuth])
 
     const handleTyping = (textareaValue, song) => {
-        // console.log(song)
     }
 
     const saveRevisionNotes = (event) => {
-        const clientCollection = 'clientID' + props.userAuth.uid
         event.preventDefault()
-        // console.log('updating firebase with revision notes...')
-        const newRevisionNoteToBeSaved = event.target[0].value
+        const clientCollection = 'clientID' + props.userAuth.uid
+        console.log('updating firebase with revision notes...')
+        // const fileVersionBeingUpdated = event.target[2].value
+
+        const fileVersionBeingUpdated = {
+            date: event.target[0].value,
+            downloadURL: event.target[1].value,
+            fileNameRegexed: event.target[2].value,
+            revisionNote: event.target[3].value,
+            songName: event.target[4].value,
+        } 
+        // const songBeingUpdated = event.target[0].value
+        // const fileVersionBeingUpdated = event.target[1].value
+        // const revisionNoteBeingUpdated = event.target[2].value
+        
+        // console.log(`songBeingUpdated: ${songBeingUpdated}`)
+        // console.log(`file version being updated: ${fileVersionBeingUpdated}`)
+        // console.log(`revisionNoteBeingUpdated: ${revisionNoteBeingUpdated}`)
+
+        const docRef = doc(db, clientCollection, fileVersionBeingUpdated.songName)
+        updateDoc(docRef, {
+            [event.target[2].value]: {
+            date: event.target[0].value,
+            downloadURL: event.target[1].value,
+            fileNameRegexed: event.target[2].value,
+            revisionNote: event.target[3].value,
+            songName: event.target[4].value,
+            }
+        })
+
+        // console.log(`the revision note is: ${event.target[1].value}`)
+        // console.log(`the song/document name is: ${event.target[0].value}`)
         // console.log(event.target[0].value)
-        console.log(`the revision note is: ${event.target[0].value}`)
-        console.log(`the song/document name is: ${event.target[1].value}`)
-        console.log(`collection to be updated is: ${clientCollection}`)
+        // console.log(event.target[1].value)
+        // console.log(event.target[2].value)
+        // console.log(event.target[5].value)
+        // console.log(`collection to be updated is: ${clientCollection}`)
 
 
-        /*
-            you cut a corner and will pay the price now
-            you need to be able to reference the document name (song title)
-            here so that you can update it with the new revision note
-
-        */
 
     }
 
@@ -82,28 +95,31 @@ export default function Client(props) {
             <ul className={styles.clientSongList}>
                 {
                     clientSongs &&
-                    clientSongs.map((song, index1) => {
+                    clientSongs.map((song, index1) => { // for each song
                         return (
                             <ul key={index1}className={styles.fileListItem}>
-                                {Object.values(song).map((songDataValue) => 
+                                {Object.values(song).map((songDataValue) => // for each file version
                                     <ul key={songDataValue.date} className={styles.fileVersion}>
                                         <li>{Date.parse(Date(songDataValue.date))}</li>
+                                        <li>{songDataValue.songName}</li>
+                                        <li>{songDataValue.fileNameRegexed}</li>
                                         {/* <li>{songDataValue.revisionNote}</li> */}
                                         <audio controls src={songDataValue.downloadURL}/>
                                         <br />
-                                        
+                                        {/* {Object.keys(song).map((fileName) => 
+                                            // console.log(fileName)
+                                            fileName
+                                        )} */}
                                         <form onSubmit={saveRevisionNotes}>
-                                            <br />
+                                            <input readOnly={true} value={songDataValue.date} style={{display: 'none'}}></input>
+                                            <input readOnly={true} value={songDataValue.downloadURL} style={{display: 'none'}}></input>
+                                            <input readOnly={true} value={songDataValue.fileNameRegexed} style={{display: 'none'}}></input>
                                             <TextareaAutosize 
                                                 defaultValue={songDataValue.revisionNote}
                                                 className={styles.revisionTextArea}
                                                 onChange={(e) => handleTyping(e.target.value, song)} 
                                             />
-
-                                            {/* <input readOnly={true} value={Object.keys(song).map((songName) => songName)} style={{display: 'none'}}></input> */}
-                                            
-                                            <input readOnly={true} value={'this should be the song/document name'} style={{display: 'none'}}></input>
-                                            <br />
+                                            <input readOnly={true} value={songDataValue.songName} style={{display: 'none'}}></input>
                                             <button type="submit">save changes</button>
                                             {/* <input type="button">suuub</input> */}
                                         </form>

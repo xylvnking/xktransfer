@@ -70,7 +70,7 @@ function Admin() {
 
 
 
-    const songTitle = 'temporarySong2hfbjsd' // MAKE THIS THE FILENAME !!!!
+    const songTitle = 'song2' // MAKE THIS THE FILENAME !!!!
     // const songTitle = fileNameRegexed // MAKE THIS THE FILENAME !!!!
 
 
@@ -91,6 +91,8 @@ function Admin() {
             [fileNameRegexed]: {
               downloadURL: downloadURL,
               // date: Date.parse(new Date()),
+              fileNameRegexed: fileNameRegexed,
+              songName: songTitle,
               date: new Date(),
               revisionNote: 'this iTHIRRRD schema works.'
             }
@@ -102,6 +104,8 @@ function Admin() {
             [fileNameRegexed]: {
               downloadURL: downloadURL,
               // date: Date.parse(new Date()),
+              fileNameRegexed: fileNameRegexed,
+              songName: songTitle,
               date: new Date(),
               revisionNote: 'this is a SECOND REVISIONink this schema works.'
             }
