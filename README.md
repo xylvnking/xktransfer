@@ -5,9 +5,9 @@
 
 [multer](https://github.com/expressjs/multer)
 [body parser](https://github.com/expressjs/body-parser)
-[easy emoji favicons](https://favicon.io/emoji-favicons/bat)
 
 # quick tools ref
+[easy emoji favicons](https://favicon.io/emoji-favicons/bat)
 [hex color picker](https://htmlcolorcodes.com/color-picker/)
 [repeating memphis background](https://www.toptal.com/designers/subtlepatterns/tag/dark/page/2/)
 
@@ -19,6 +19,7 @@
 [how-to-clone-an-array-in-javascript](https://www.freecodecamp.org/news/how-to-clone-an-array-in-javascript-1d3183468f6a/)
 [regex meme](https://stackoverflow.com/questions/1732348/regex-match-open-tags-except-xhtml-self-contained-tags/1732454#1732454)
 [annoying date stuff](https://stackoverflow.com/questions/7693170/javascript-convert-from-epoch-string-to-date-object)
+[dynamic nextjs routes](https://nextjs.org/docs/routing/dynamic-routes)
 
 
 # unresolved problems

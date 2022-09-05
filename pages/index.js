@@ -119,8 +119,8 @@ export default function Home() {
           <Client userAuth={user}/>
           
         } */}
-         <Admin />
-        {/* <Client userAuth={user} /> */}
+         {/* <Admin /> */}
+        <Client userAuth={user} />
 
         
       </main>

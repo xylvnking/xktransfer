@@ -55,6 +55,7 @@ function Admin() {
               tempArray[z].songs = tempSongsArray
             }
             setClientListArray(tempArray)
+            
           } else {
             console.log("No such document!");
           }
@@ -64,6 +65,7 @@ function Admin() {
   }, [])
 
   function check() {
+    setImageStyleTrigger('2px') // next image needs
     console.log(clientSelected)
   }
 
@@ -183,13 +185,12 @@ function Admin() {
                   alt="User Photo" 
                   width={'100%'} 
                   height={'100%'} 
-                  style={{
+                  style={{ // this doesn't work, i think i need to wrap it but it's admin so not gonna  stress
                     overflow:'hidden',
                     borderRadius: '50%',
                     borderStyle: 'solid',
                     borderWidth: '2px',
                     borderColor: 'rgb(255, 255, 255)'
-                    
                   }}
                   /> }
                   <section className={adminStyles.clientInfo}>
@@ -203,18 +204,16 @@ function Admin() {
                 <ul className={songStyles.songList}>
                   {x.songs.map((song, index) => <ul key={x.uid + index} className={songStyles.fileListItem}>
                     {Object.keys(song).map((songData, index) => <ul key={index} className={songStyles.fileVersion} onClick={() => setSongSelected(song[songData].songName)}>
-                      <li className={songStyles.songName}>{song[songData].songName}</li>
+                      <li className={songStyles.songName}>{song[songData].songName} <button onClick={() => deleteSong(song[songData].fileNameRaw, song[songData].songName, x)} className={songStyles.songDeleteButton}>delete</button> </li>
                       {/* <li>{songData}</li> */}
                       <li className={songStyles.filename}>{song[songData].fileNameRaw}</li>
                       <br />
                       <li className={songStyles.revisionNote}>{song[songData].revisionNote}</li>
                       <br />
-                      {/* <li>{returnDate(song[songData].date.seconds).toLocaleString()}</li> */}
                       <li><audio className={styles.audio} key={song[songData].getDownloadURL} controls src={song[songData].downloadURL}></audio></li>
-                      {/* <label htmlFor='deleteSongButton' className={adminStyles.adminFormButton}>delete</label> */}
-                      <div style={{display: 'flex', justifyContent: 'end'}}>
+                      {/* <div style={{display: 'flex', justifyContent: 'end'}}>
                         <button onClick={() => deleteSong(song[songData].fileNameRaw, song[songData].songName, x)} className={songStyles.songDeleteButton}>DELETE</button>
-                      </div>
+                      </div> */}
                       
                     </ul>)}
                   </ul>)}

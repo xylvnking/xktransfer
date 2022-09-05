@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import styles from '../../styles/Home.module.css'
+import adminStyles from '../../styles/Admin.module.css'
+import songStyles from '../../styles/Song.module.css'
 import firebase, {auth, db, provider, storage} from '../../firebase/clientApp'
 import { collection, getDocs, doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
 import {useAuthState} from "react-firebase-hooks/auth"
@@ -66,30 +68,29 @@ export default function Client(props) {
     }
 
   return (
-    <main className={styles.clientContainer}>
-        <button onClick={() => check()}>CHECK</button>
+    <main >
+        {/* <button onClick={() => check()}>CHECK</button> */}
         <br />
         {
             userAuth &&
             userAuth.uid
         }
-        <section className={styles.songList}>
-            <ul className={styles.clientSongList}>
+        <section>
+            <ul className={adminStyles.clientClient}>
                 {
                     clientSongs &&
                     clientSongs.map((song, index1) => { // for each song
                         return (
-                            <ul key={index1}className={styles.fileListItem}>
+                            <ul key={index1} style={{listStyle: 'none', padding: '0px', display:'flex', flexDirection: 'column', alignItems: 'center', width: '100%'}}>
                                 {Object.values(song).map((songDataValue) => // for each file version
-                                    <ul key={songDataValue.date} className={styles.fileVersion}>
+                                    <ul key={songDataValue.date} className={songStyles.fileVersionClient}>
                                         {/* <li>{Date.parse(Date(songDataValue.date))}</li> */}
-                                        <li>{songDataValue.songName}</li>
-                                        <li>{songDataValue.fileNameRegexed}</li>
+                                        <li className={songStyles.songName}>{songDataValue.songName}</li>
+                                        <li className={songStyles.filename}>{songDataValue.fileNameRegexed}</li>
                                         {/* this button gets a link to a dynamic page populated with the song name and file url for sharing */}
-                                        <button onClick={() => navigator.clipboard.writeText(siteNameTemporary + '/Components/' + songDataValue.songName + '?foo=' + songDataValue.downloadURL)}>copy shareable URL to clipboard 📋 </button>
-                                        <br />
+                                        
                                         {/* <li>{songDataValue.revisionNote}</li> */}
-                                        <audio controls src={songDataValue.downloadURL}/>
+                                        <audio controls src={songDataValue.downloadURL} className={songStyles.audioWithSpace}/>
                                         <br />
                                         {/* {Object.keys(song).map((fileName) => 
                                             // console.log(fileName)
@@ -110,6 +111,7 @@ export default function Client(props) {
                                             <button type="submit">save changes</button>
                                             {/* <input type="button">suuub</input> */}
                                         </form>
+                                            <button onClick={() => navigator.clipboard.writeText(siteNameTemporary + '/Components/' + songDataValue.songName + '?foo=' + songDataValue.downloadURL)}>copy shareable URL to clipboard 📋 </button>
                                     </ul>
                                 )}
                             </ul>
