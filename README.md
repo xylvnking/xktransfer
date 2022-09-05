@@ -1,6 +1,7 @@
 # packages
 [react-firebase-hooks](https://github.com/CSFrequency/react-firebase-hooks)
 [react-textarea-autosize](https://github.com/Andarist/react-textarea-autosize)
+[FileSaver.js](https://github.com/eligrey/FileSaver.js)
 
 
 [multer](https://github.com/expressjs/multer)

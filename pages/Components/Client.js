@@ -3,6 +3,8 @@ import styles from '../../styles/Home.module.css'
 import adminStyles from '../../styles/Admin.module.css'
 import songStyles from '../../styles/Song.module.css'
 import firebase, {auth, db, provider, storage} from '../../firebase/clientApp'
+import { saveAs } from 'file-saver';
+var FileSaver = require('file-saver');
 
 import { getStorage, ref, getDownloadURL, getBlob, getBytes } from "firebase/storage";
 // const storage = getStorage();
@@ -66,55 +68,11 @@ export default function Client(props) {
 
     
     const downloadThing = (yer) => {
-        // window.open(yer)
-        const tempRef = ref(storage, 'masters/083.png');
-        // console.log(getBlob(tempRef))
-        // getBlob(tempRef)
+        console.log(yer)
+        const aBlob = new Blob(['https://firebasestorage.googleapis.com/v0/b/xktransfer-30d93.appspot.com/o/masters%2F083.png?alt=media&token=d71b32ef-12b8-4fdb-a4a9-e2b5c9b25870'])
+        const toDownload = window.URL.createObjectURL(aBlob)
+        saveAs(toDownload);
         
-        async function getFileForDownload() {
-            // getBytes()
-            return await getBytes(tempRef)
-            // return await getBlob(tempRef)
-            await getBlob(tempRef).then((x) => {
-                console.log(typeof x)
-                return x
-            }).catch((error) => {
-                console.log(error)
-            })
-
-        }
-
-        getFileForDownload()
-        
-
-        // getDownloadURL(tempRef)
-        // .then((url) => {
-        //     return url
-        //     // Insert url into an <img> tag to "download"
-        //     console.log('i think this should download')
-        //     console.log(url)
-        // })
-        // .catch((error) => {
-        //     // A full list of error codes is available at
-        //     // https://firebase.google.com/docs/storage/web/handle-errors
-        //     switch (error.code) {
-        //     case 'storage/object-not-found':
-        //         // File doesn't exist
-        //         break;
-        //     case 'storage/unauthorized':
-        //         // User doesn't have permission to access the object
-        //         break;
-        //     case 'storage/canceled':
-        //         // User canceled the upload
-        //         break;
-    
-        //     // ...
-    
-        //     case 'storage/unknown':
-        //         // Unknown error occurred, inspect the server response
-        //         break;
-        //     }
-        // });
     }
 
    
@@ -160,10 +118,10 @@ export default function Client(props) {
                                             />
                                             <br />
                                             <input readOnly={true} value={songDataValue.songName} style={{display: 'none'}}></input>
-                                            {/* <a target="_blank" href='' rel="noopener noreferrer" download={songDataValue.downloadURL}>downloaddd</a> */}
-                                            <a target="_blank" rel="noopener noreferrer" href={songDataValue.downloadURL} download>
-                                                <button onClick={downloadThing(songDataValue.downloadURL)}>download please lol</button>
-                                            </a>
+                                            <a target="_blank" href={songDataValue.downloadURL} download="">downloaddd</a>
+                                            {/* <a target="_blank" href='' download={downloadThing}>
+                                                <button >download please lol</button>
+                                            </a> */}
                                             {/* <a target="_blank" href='' download={downloadThing()}></a> */}
                                             {/* <a href='gs://xktransfer-30d93.appspot.com/masters/artistname-songName-dy-13-01-2022-0.jpeg' download="ok">downloaddd</a> */}
                                             <button type="submit">save changes</button>
