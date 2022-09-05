@@ -23,11 +23,27 @@ export default function Client(props) {
     }
     const [userAuth, userAuthIsLoading, userAuthError] = useAuthState(auth)
     const [clientSongs, setClientSongs] = useState([])
+
+    
+    // const clientCollection = 'clientID' + props.userAuth.uid
+    // async function getClientSongs() {
+    //     const clientCollection = 'clientID' + userAuth.uid
+    //     const querySnapshot = await getDocs(collection(db, clientCollection));
+    //     querySnapshot.forEach((doc) => {
+    //         if (doc.id !== 'settings') {
+    //             setClientSongs(current => {
+    //                 return [
+    //                     ...current,
+    //                     doc.data()
+    //                 ]  
+    //             })
+    //         }
+    //     })
+    // }
     
     // load client songs
     useEffect(() => {
         if (userAuth && clientSongs.length == 0) {
-            // const clientCollection = 'clientID' + props.userAuth.uid
             const clientCollection = 'clientID' + userAuth.uid
             async function getClientSongs() {
                 const querySnapshot = await getDocs(collection(db, clientCollection));
@@ -64,7 +80,8 @@ export default function Client(props) {
             songName: event.target[4].value,
             }
         })
-        alert('changes saved to the database. refresh plsss')
+        alert(`Changes for ${event.target[4].value} have been saved!`)
+        // getClientSongs()
     }
 
     
