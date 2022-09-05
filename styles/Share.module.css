@@ -1,0 +1,56 @@
+.sectionContainer {
+    /* max-width: ; */
+    background-color: aqua;
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* display: grid;
+    grid-template-columns: 1fr; */
+
+
+
+    margin: 0;
+    padding: 0;
+    
+    background-image: url('https://www.toptal.com/designers/subtlepatterns/uploads/memphis-mini-dark.png');
+    position: absolute;
+}
+
+.sectionContainerInner {
+    background-image: url('https://www.toptal.com/designers/subtlepatterns/uploads/topography.png');
+    color: black;
+    padding: 10px;
+    border-radius: 10px;
+    /* display: flex;
+    flex-direction: column;
+    align-items: center; */
+    /* justify-items: center; */
+    height: 500px;
+    background-color: blueviolet;
+    /* width: 800px; */
+    min-width: 300px;
+    margin: 10px;
+    max-width: 750px;
+    /* width: 750px; */
+}
+
+/* YOU PROBBALY HAVE TO SET THIS TO GRID FOR THE TEXTAREA TO AUTOMAICALLY FILL THE 1FR CONTAINER */
+
+.revision {
+    width: 100%;
+    resize: none;
+    height: 300px;
+    /* width: 400px; */
+    /* overflow-x: hidden; */
+    /* overflow-wrap: break-word; */
+    /* word-wrap:break-word; */
+    /* white-space: pre;
+    overflow-wrap: break-word; */
+    
+    /* max-width: 500px; */
+    /* word-wrap: break-word; */
+}
