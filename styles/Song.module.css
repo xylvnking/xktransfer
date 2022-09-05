@@ -34,14 +34,14 @@ font-family: 'Source Code Pro', monospace; */
 }
 
 .fileVersion {
-width: 90%;
-/* width: 100vw; */
-padding: 20px;
-margin: 10px;
-list-style: none;
-border-radius: 2.5px;
-background-color: rgb(255, 255, 255);
-color: black;
+    width: 90%;
+    /* width: 100vw; */
+    padding: 20px;
+    margin: 10px;
+    list-style: none;
+    border-radius: 2.5px;
+    background-color: rgb(255, 255, 255);
+    color: black;
 }
 
 .fileVersionClient {
@@ -97,9 +97,42 @@ color: black;
     border-color: rgb(255, 0, 0);
 }
 
+.songDeleteButtonClient {
+    /* justify-self: flex-end; */
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(79, 79, 79);
+    border-radius: 10px;
+    
+    border-width: 0px;
+    
+    font-size: 12px;
+    color: rgb(79, 79, 79);
+    background-color: rgb(255, 255, 255);
+    /* margin-top: 10px; */
+    padding: 10px;
+    cursor: pointer;
+    
+    /* font-family: 'Kanit', sans-serif; */
+    font-weight: 300;
+
+}
+
+.songDeleteButtonClient:hover {
+    color: rgb(0, 119, 255);
+    /* cursor: copy; */
+}
+
 
 .audioWithSpace {
     margin: 20px 0px 20px 0px;
     width: 100%;
-    
+}
+
+.cleanButton {
+    background-color: rgb(79, 79, 79);
+    color: white;
+    padding:10px;
+    border-width: 0px;
+    border-radius: 10px;
 }

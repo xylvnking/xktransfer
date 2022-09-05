@@ -64,6 +64,7 @@ export default function Client(props) {
             songName: event.target[4].value,
             }
         })
+        alert('changes saved to the database. refresh plsss')
     }
 
     
@@ -95,7 +96,7 @@ export default function Client(props) {
                                 {Object.values(song).map((songDataValue) => // for each file version
                                     <ul key={songDataValue.date} className={songStyles.fileVersionClient}>
                                         {/* <li>{Date.parse(Date(songDataValue.date))}</li> */}
-                                        <li className={songStyles.songName}>{songDataValue.songName}</li>
+                                        <li className={songStyles.songName}>{songDataValue.songName} <button className={songStyles.songDeleteButtonClient}><a target="_blank" href={songDataValue.downloadURL} download="">DOWNLOAD</a></button></li>
                                         <li className={songStyles.filename}>{songDataValue.fileNameRegexed}</li>
                                         {/* this button gets a link to a dynamic page populated with the song name and file url for sharing */}
                                         
@@ -118,16 +119,16 @@ export default function Client(props) {
                                             />
                                             <br />
                                             <input readOnly={true} value={songDataValue.songName} style={{display: 'none'}}></input>
-                                            <a target="_blank" href={songDataValue.downloadURL} download="">downloaddd</a>
+                                            {/* <a target="_blank" href={songDataValue.downloadURL} download="">downloaddd</a> */}
                                             {/* <a target="_blank" href='' download={downloadThing}>
                                                 <button >download please lol</button>
                                             </a> */}
                                             {/* <a target="_blank" href='' download={downloadThing()}></a> */}
                                             {/* <a href='gs://xktransfer-30d93.appspot.com/masters/artistname-songName-dy-13-01-2022-0.jpeg' download="ok">downloaddd</a> */}
-                                            <button type="submit">save changes</button>
+                                            <button type="submit" className={songStyles.cleanButton}>save changes</button>
+                                            <button className={songStyles.songDeleteButtonClient} onClick={() => navigator.clipboard.writeText(siteNameTemporary + '/Components/' + songDataValue.songName + '?foo=' + songDataValue.downloadURL)}>copy link<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M5.25 17.188q-.521 0-.885-.365Q4 16.458 4 15.938V5.771h1v10.167q0 .083.083.166.084.084.167.084h8.208v1Zm2.417-2.417q-.521 0-.886-.365-.364-.364-.364-.885V4.167q0-.521.364-.886.365-.364.886-.364h7.395q.542 0 .907.364.364.365.364.886v9.354q0 .521-.364.885-.365.365-.907.365Zm0-1h7.395q.105 0 .188-.083.083-.084.083-.167V4.167q0-.105-.083-.177-.083-.073-.188-.073H7.667q-.084 0-.167.073-.083.072-.083.177v9.354q0 .083.083.167.083.083.167.083Zm-.25 0V3.917v9.854Z"/></svg> </button>
                                             {/* <input type="button">suuub</input> */}
                                         </form>
-                                            <button onClick={() => navigator.clipboard.writeText(siteNameTemporary + '/Components/' + songDataValue.songName + '?foo=' + songDataValue.downloadURL)}>copy shareable URL to clipboard 📋 </button>
                                     </ul>
                                 )}
                             </ul>
