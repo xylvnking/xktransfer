@@ -93,6 +93,33 @@ export default function Client(props) {
         
     }
 
+    const [isLoading, setLoading] = useState(true)
+    const shortenShareUrl = async (songData) => {
+        const aString = siteNameTemporary + '/Components/' + songData.songName + '?foo=' + encodeURIComponent(songData.revisionNote) + 'xxxxxxxxxx' + songData.fileNameRegexed + 'xxxxxxxxxx' + songData.downloadURL
+
+        await fetch('https://boilerplate-project-urlshortener.xylvnking.repl.co/api/shorturl',{
+
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+            body: JSON.stringify({url: aString})
+        },
+        ).then((response) => {
+        // console.log(...response.headers)
+        console.log(response.json())
+        // console.log(response)
+        //     response.json().then((x) => {
+        //         // setData(x)
+        //         setLoading(false)
+        //  })
+        })
+        
+        navigator.clipboard.writeText(siteNameTemporary + '/Components/' + songData.songName + '?foo=' + encodeURIComponent(songData.revisionNote) + 'xxxxxxxxxx' + songData.fileNameRegexed + 'xxxxxxxxxx' + songData.downloadURL)
+    }
+
    
 
   return (
@@ -146,7 +173,12 @@ export default function Client(props) {
                                             <button 
                                                 type="button" 
                                                 className={songStyles.songDeleteButtonClient} 
-                                                onClick={() => navigator.clipboard.writeText(siteNameTemporary + '/Components/' + songDataValue.songName + '?foo=' + encodeURIComponent(songDataValue.revisionNote) + 'xxxxxxxxxx' + songDataValue.downloadURL)}>
+
+
+                                                // onClick={() => navigator.clipboard.writeText(siteNameTemporary + '/Components/' + songDataValue.songName + '?foo=' + encodeURIComponent(songDataValue.revisionNote) + 'xxxxxxxxxx' + songDataValue.fileNameRegexed + 'xxxxxxxxxx' + songDataValue.downloadURL)}>
+                                                onClick={() => shortenShareUrl(songDataValue)}>
+
+
                                                 {/* onClick={() => navigator.clipboard.writeText(siteNameTemporary + '/Components/' + songDataValue.songName + '?foo=' + songDataValue.downloadURL + 'xxxxxxxxxx' + songDataValue.revisionNote)}> */}
                                                     copy link
                                                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20"><path d="M5.25 17.188q-.521 0-.885-.365Q4 16.458 4 15.938V5.771h1v10.167q0 .083.083.166.084.084.167.084h8.208v1Zm2.417-2.417q-.521 0-.886-.365-.364-.364-.364-.885V4.167q0-.521.364-.886.365-.364.886-.364h7.395q.542 0 .907.364.364.365.364.886v9.354q0 .521-.364.885-.365.365-.907.365Zm0-1h7.395q.105 0 .188-.083.083-.084.083-.167V4.167q0-.105-.083-.177-.083-.073-.188-.073H7.667q-.084 0-.167.073-.083.072-.083.177v9.354q0 .083.083.167.083.083.167.083Zm-.25 0V3.917v9.854Z"/></svg> 

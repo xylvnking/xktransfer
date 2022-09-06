@@ -29,7 +29,17 @@
 
 I couldn't get the firestore setDoc function to not just overwrite the contents of the document, despite following the documentation's directive of passing {merge: true} as an argument. It didn't cause any errors, but it didn't have any affect either. Switched to updateDoc.
 
+- It's a little hacky but to get a shareable link i'm passing data with the url to the dynamic route and then splitting the arguments with regex. for some reason the last two only work in this order - if i switch them it doesn't work.
+
+```js
+    onClick={() => navigator.clipboard.writeText(siteNameTemporary + '/Components/' + songDataValue.songName + '?foo=' + encodeURIComponent(songDataValue.revisionNote) + 'xxxxxxxxxx' + songDataValue.fileNameRegexed + 'xxxxxxxxxx' + songDataValue.downloadURL)}>
+```
+
 # learned
+
+# cors using fetch
+
+[was able to make a cors request to replit with this](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#supplying_request_options)
 
 # dev experience
 

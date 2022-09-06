@@ -3,6 +3,8 @@
     background-color: aqua;
     width: 100vw;
     height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
 
     display: flex;
     flex-direction: column;
@@ -29,21 +31,58 @@
     flex-direction: column;
     align-items: center; */
     /* justify-items: center; */
-    height: 500px;
+    height: 100vh;
+    margin: 25px 0px 25px 0px;
+    /* border-width: 10px; */
     background-color: blueviolet;
-    /* width: 800px; */
-    min-width: 300px;
+    
+
+    width: 100vw;
+
+    /* min-width: 300px;
     margin: 10px;
+    max-width: 750px; */
+
     max-width: 750px;
-    /* width: 750px; */
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 50px 50px 50px 1fr;
+    align-items:flex-start;
+    
+}
+
+.songName {
+    align-self: flex-start;
+
+    /* overflow: hidden; */
+}
+
+.fileVersion {
+    font-size:smaller;
+    color: rgb(83, 83, 83);
+    font-weight: 300;
+}
+
+.audio {
+    width: 100%;
 }
 
 /* YOU PROBBALY HAVE TO SET THIS TO GRID FOR THE TEXTAREA TO AUTOMAICALLY FILL THE 1FR CONTAINER */
 
 .revision {
+    cursor:default;
     width: 100%;
     resize: none;
-    height: 300px;
+    /* height: 500px; */
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0);
+    color: black;
+    font-size: 16px;
+    border-radius: 10px;
+    border-style: none;
+    margin-top: 30px;
+    padding: 10px;
+    
     /* width: 400px; */
     /* overflow-x: hidden; */
     /* overflow-wrap: break-word; */
