@@ -45,7 +45,7 @@ function Admin() {
             // get all songs for each client
             for (let z = 0; z < tempArray.length; z++) {
               const tempSongsArray = []
-              let songDoc = tempArray[z].uidWithoutNumberAtTheStart
+              let songDoc = tempArray[z].uidWithoutNumberAtTheStart // getting uids from admin's client list to be able to iterate over the documents within each collection
               const querySnapshot = await getDocs(collection(db, songDoc));
               querySnapshot.forEach((doc) => {
                 if (doc.id !== 'settings') {

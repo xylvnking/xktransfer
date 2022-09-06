@@ -95,27 +95,20 @@ export default function Client(props) {
 
     const [isLoading, setLoading] = useState(true)
     const shortenShareUrl = async (songData) => {
-        const aString = siteNameTemporary + '/Components/' + songData.songName + '?foo=' + encodeURIComponent(songData.revisionNote) + 'xxxxxxxxxx' + songData.fileNameRegexed + 'xxxxxxxxxx' + songData.downloadURL
+        // const aString = siteNameTemporary + '/Components/' + songData.songName + '?foo=' + encodeURIComponent(songData.revisionNote) + 'xxxxxxxxxx' + songData.fileNameRegexed + 'xxxxxxxxxx' + songData.downloadURL
 
-        await fetch('https://boilerplate-project-urlshortener.xylvnking.repl.co/api/shorturl',{
+        // await fetch('https://boilerplate-project-urlshortener.xylvnking.repl.co/api/shorturl',{
 
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              },
-            body: JSON.stringify({url: aString})
-        },
-        ).then((response) => {
-        // console.log(...response.headers)
-        console.log(response.json())
-        // console.log(response)
-        //     response.json().then((x) => {
-        //         // setData(x)
-        //         setLoading(false)
-        //  })
-        })
+        //     method: 'POST',
+        //     mode: 'cors',
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json'
+        //       },
+        //     body: JSON.stringify({url: aString})
+        // },
+        // ).then((response) => {
+        // })
         
         navigator.clipboard.writeText(siteNameTemporary + '/Components/' + songData.songName + '?foo=' + encodeURIComponent(songData.revisionNote) + 'xxxxxxxxxx' + songData.fileNameRegexed + 'xxxxxxxxxx' + songData.downloadURL)
     }
@@ -126,10 +119,10 @@ export default function Client(props) {
     <main >
         <button onClick={() => check()}>CHECK</button>
         <br />
-        {
+        {/* {
             userAuth &&
             userAuth.uid
-        }
+        } */}
         <section>
             <ul className={adminStyles.clientClient}>
                 {
