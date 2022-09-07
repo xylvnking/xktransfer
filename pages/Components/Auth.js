@@ -10,6 +10,9 @@ import { collection, addDoc, doc, getDoc, setDoc, updateDoc } from "firebase/fir
 import {useAuthState} from "react-firebase-hooks/auth"
 
 
+import styles from '../../styles/Home.module.css'
+
+
 
 
 
@@ -113,22 +116,15 @@ function Auth() {
     //     }
     // })
 
-
-    function logIt() {
-        // console.log(client)
-        console.log(client)
-
-    }
     return (
         <div>
             {
                 userAuth
                 ?
-                <button onClick={signUserOut}> Sign Out</button>
+                <button className={styles.indexButtons} onClick={signUserOut}> Sign Out</button>
                 :
-                <button onClick={signInWithGoogle}> Sign In</button>
+                <button className={styles.indexButtons} onClick={signInWithGoogle}> Sign In</button>
             }
-            <button onClick={logIt}>log user info</button>
         </div>
   )
 }

@@ -18,8 +18,8 @@ const siteNameTemporary = 'localhost:3000'
 
 export default function Client(props) {
     function check() {
-        // console.log(clientSongs)
-        downloadThing()
+        console.log(clientSongs)
+        // downloadThing()
     }
     const [userAuth, userAuthIsLoading, userAuthError] = useAuthState(auth)
     const [clientSongs, setClientSongs] = useState([])
@@ -117,13 +117,13 @@ export default function Client(props) {
 
   return (
     <main >
-        <button onClick={() => check()}>CHECK</button>
         <br />
         {/* {
             userAuth &&
             userAuth.uid
         } */}
         <section>
+        <button onClick={() => check()}>CHECK</button>
             <ul className={adminStyles.clientClient}>
                 {
                     clientSongs &&

@@ -200,3 +200,5 @@ I used dynamic routes and passed in the song name as the route, and link as the 
     - **what i think i need to do is build the page as a dynamic route, and use the query passed in as the collection which gets queried**
     - and then on a different 'client dashboard' would be the component where they would have edit priviledges
     
+- components should be called artists or something so the url looks better
+    - artist share url should be xylvnking/artistName/songName

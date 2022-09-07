@@ -154,3 +154,13 @@
     text-overflow: ellipsis;
     margin: 0px;
 }
+
+
+
+
+.fakeTextHeader {
+    text-align: center;
+    max-width: 450px;
+    color: black;
+    
+}

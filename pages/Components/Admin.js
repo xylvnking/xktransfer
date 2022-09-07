@@ -65,8 +65,7 @@ function Admin() {
   }, [])
 
   function check() {
-    setImageStyleTrigger('2px') // next image needs
-    console.log(clientSelected)
+    console.log(clientListArray)
   }
 
 

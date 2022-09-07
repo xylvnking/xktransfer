@@ -22,7 +22,7 @@ const router = useRouter()
                     {/* <p>audio file link: {foo}</p> */}
                     <h1 className={shareStyles.songName}>{pid}</h1>
                     <h1 className={shareStyles.fileVersion}>{data[1]}</h1>
-                    <audio className={shareStyles.audio} src="https://firebasestorage.googleapis.com/v0/b/xktransfer-30d93.appspot.com/o/masters%2FOCHE-Playing-With-My-Head-dy-26082022.wav?alt=media&token=d4abb847-9466-4a76-95ab-90b940811460" controls></audio>
+                    <audio className={shareStyles.audio} src='https://firebasestorage.googleapis.com/v0/b/xktransfer-30d93.appspot.com/o/masters%2FNoita-Fool-For-You-dy-23032021.mp3?alt=media&token=9f4f54fc-498d-488e-b335-cd75cee4ac61' controls></audio>
                     <textarea className={shareStyles.revision} value={data[0]} readOnly></textarea>
 
                 </div>

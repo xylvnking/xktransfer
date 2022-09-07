@@ -4,8 +4,10 @@ import styles from '../styles/Home.module.css'
 import React, {useState, useEffect} from 'react'
 
 import Auth from './Components/Auth'
+import AdminEmulate from './Components/AdminEmulate'
 import Admin from './Components/Admin'
 import Client from './Components/Client'
+import ClientEmulate from './Components/ClientEmulate'
 
 
 import {useAuthState} from "react-firebase-hooks/auth"
@@ -40,6 +42,7 @@ export default function Home() {
   
   const [data, setData] = useState(null)
   const [isLoading, setLoading] = useState(true)
+  const [emulation, setEmulation] = useState(null)
   
   
   const [user, userAuthIsLoading, userAuthError] = useAuthState(auth)
@@ -109,17 +112,42 @@ export default function Home() {
       <Auth />
 
       <main>
+
+        <section style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+          <button className={styles.indexButtons} onClick={() => setEmulation('admin')}>Emulate Admin</button>
+          <button className={styles.indexButtons} onClick={() => setEmulation('client')}>Emulate Client</button>
+          <button className={styles.indexButtons} onClick={() => setEmulation('')}>Emulate Null</button>
+        </section>
+
         {
-          user 
+          (user 
           &&
-          (user.uid == adminId)
-          ?
+          (user.uid == adminId))
+          &&
           <Admin />
-          :
-          <Client userAuth={user}/>
-          
         }
+        {
+          (user 
+          &&
+          (user.uid == !adminId))
+          &&
+          <Client userAuth={user}/>
+        }
+        {
+          emulation == 'admin'
+          &&
+          <AdminEmulate />
+        }
+        {
+          emulation == 'client'
+          &&
+          <ClientEmulate />
+        }
+
+
+         {/* <AdminEmulate /> */}
          {/* <Admin /> */}
+         {/* <ClientEmulate /> */}
         {/* <Client userAuth={user} /> */}
 
         
