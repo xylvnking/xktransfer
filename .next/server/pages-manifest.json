@@ -1,6 +1,15 @@
 {
   "/_app": "pages/_app.js",
+  "/Components/Admin": "pages/Components/Admin.html",
+  "/Components/Auth": "pages/Components/Auth.html",
+  "/Components/AdminEmulate": "pages/Components/AdminEmulate.html",
+  "/Components/Client": "pages/Components/Client.html",
+  "/Components/ClientEmulate": "pages/Components/ClientEmulate.html",
+  "/Components/[pid]": "pages/Components/[pid].html",
+  "/api/handlefiles": "pages/api/handlefiles.js",
+  "/api/hello": "pages/api/hello.js",
+  "/": "pages/index.html",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js"
+  "/404": "pages/404.html"
 }

@@ -87,14 +87,6 @@
 
 
 
-.clientInfoListItemListItem {
-  /* overflow: hidden;
-  text-overflow: ellipsis; */
-
-}
-
-
-
 .songListItem {
   padding: 0px;
   margin: 0px;
@@ -129,15 +121,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: row;
   /* flex-direction: ; */
 
   /* style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}} */
 }
-@media (max-width: 350px) {
+@media (max-width: 750px) {
   .indexButtonsContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    
     flex-direction: column;
   
     /* style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}} */
