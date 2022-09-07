@@ -112,7 +112,8 @@ export default function ClientEmulate(props) {
                                     <ul key={songDataValue.date} className={songStyles.fileVersionClient}>
                                         <li className={songStyles.songName} style={{cursor: 'default'}}>{songDataValue.songName} <button className={songStyles.songDeleteButtonClient}><a target="_blank" href={songDataValue.downloadURL} >DOWNLOAD</a></button></li>
                                         <li className={songStyles.filename} style={{cursor: 'default'}}>{songDataValue.fileNameRegexed}</li>
-                                        <audio controls src={songDataValue.downloadURL} className={songStyles.audioWithSpace}/>
+                                        {/* <audio controls src={songDataValue.downloadURL} className={songStyles.audioWithSpace}/> */}
+                                        <audio controls src='fake url' className={songStyles.audioWithSpace}/>
                                         <br />
                                         <form onSubmit={saveRevisionNotes}>
                                             <input readOnly={true} value={songDataValue.date} style={{display: 'none'}}></input>

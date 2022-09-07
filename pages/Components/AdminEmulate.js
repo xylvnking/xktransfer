@@ -253,7 +253,8 @@ function AdminEmulate() {
                       <br />
                       <li className={songStyles.revisionNote}>{song[songData].revisionNote}</li>
                       <br />
-                      <li><audio className={styles.audio} key={song[songData].getDownloadURL} controls src={song[songData].downloadURL}></audio></li>
+                      {/* <li><audio className={styles.audio} key={song[songData].getDownloadURL} controls src={song[songData].downloadURL}></audio></li> */}
+                      <li><audio className={styles.audio} key={song[songData].getDownloadURL} controls src='fake url'></audio></li>
                     </ul>)}
                   </ul>)}
                 </ul>
