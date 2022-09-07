@@ -1,3 +1,24 @@
+# audio file transfer service
+
+I made this because I wanted to streamline the revisions process when working with audio.
+
+Keeping track of revision notes and file versions and have it all easily accessible is often a pain, and this solves that.
+
+This is the 'alpha' version, which I made to learn about what it would take to make this properly.
+
+Project based learning is great, but I've promised myself that I can't get hungup on small features for weeks on end, and that if it's just something I'm creating to learn it's better to learn the lesson and move on.
+
+For example I want to structure my database entirely differently, create a link shortening microservice, create an audio player, etc - but all of that was way beyond the scope of this project.
+
+You can check out the app at https://xktransfer.vercel.app/ without needing to sign in. I've added toggles to emulate the admin and client pages so you can see what they would see, but the backend on those emulations isn't functional.
+
+You're welcome to authenticate, but unless I upload songs to you, there won't be much to see so I wouldn't bother.
+
+Excited to apply everything I've learned during the development of this project to the proper one. 
+
+**Thanks for checking it out! Everything which follows this is just my personal notes and links to refer back to when I develop the full platform.**
+
+
 # packages
 [react-firebase-hooks](https://github.com/CSFrequency/react-firebase-hooks)
 [react-textarea-autosize](https://github.com/Andarist/react-textarea-autosize)
