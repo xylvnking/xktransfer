@@ -113,26 +113,30 @@ export default function Home() {
 
       <main>
 
-        <section style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+          {!user &&
+        <section className={styles.indexButtonsContainer}>
           <button className={styles.indexButtons} onClick={() => setEmulation('admin')}>Emulate Admin</button>
           <button className={styles.indexButtons} onClick={() => setEmulation('client')}>Emulate Client</button>
           <button className={styles.indexButtons} onClick={() => setEmulation('')}>Emulate Null</button>
         </section>
+          }
 
         {
           (user 
           &&
           (user.uid == adminId))
-          &&
+          ?
           <Admin />
+          :
+          user && <Client />
         }
-        {
+        {/* {
           (user 
           &&
           (user.uid == !adminId))
           &&
           <Client userAuth={user}/>
-        }
+        } */}
         {
           emulation == 'admin'
           &&
@@ -143,6 +147,8 @@ export default function Home() {
           &&
           <ClientEmulate />
         }
+
+        {/* <Client /> */}
 
 
          {/* <AdminEmulate /> */}

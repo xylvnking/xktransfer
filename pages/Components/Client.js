@@ -123,7 +123,7 @@ export default function Client(props) {
             userAuth.uid
         } */}
         <section>
-        <button onClick={() => check()}>CHECK</button>
+        {/* <button onClick={() => check()}>CHECK</button> */}
             <ul className={adminStyles.clientClient}>
                 {
                     clientSongs &&

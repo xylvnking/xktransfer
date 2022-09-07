@@ -32,6 +32,8 @@
 
 [dynamic nextjs routes](https://nextjs.org/docs/routing/dynamic-routes)
 
+[Getting invalid HTTP method/URL pair Error when trying to load Firebase Storage Image URL into meta tag](https://stackoverflow.com/questions/68510516/getting-invalid-http-method-url-pair-error-when-trying-to-load-firebase-storage)
+
 
 # unresolved problems
 
@@ -96,6 +98,11 @@ function Admin() {
 ```
 
 ## next
+
+### environment variables
+
+dont put quotation marks around them
+
 
 ### dynamic routes
 
